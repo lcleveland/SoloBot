@@ -2,6 +2,7 @@
 {
     using SoloBot.IRC.Command.Interface;
     using SoloBot.IRC.Interface;
+    using System;
     using System.ComponentModel.Composition;
 
     [Export(typeof(IIRCCommand))]
@@ -64,6 +65,7 @@
 
         public void Initialize()
         {
+            Console.WriteLine(this.Name + " Loaded!");
         }
     }
 }
