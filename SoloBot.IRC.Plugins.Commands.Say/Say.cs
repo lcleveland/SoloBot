@@ -3,23 +3,13 @@
     using IrcMessageSharp;
     using SoloBot.IRC.Command.Interface;
     using SoloBot.IRC.Interface;
-    using System;
+    using SoloBot.Plugins.Core.Models;
     using System.ComponentModel.Composition;
 
     [Export(typeof(IIRCCommand))]
-    public class Say : IIRCCommand
+    public class Say : IRCCommandPluginBase
     {
-        private string command = "!say";
-        private string name = "Say Plugin";
-        private string description = "Plugin that makes the client speak.";
-        private string version = "0.01";
-
-        public string Command
-        {
-            get { return this.command; }
-        }
-
-        public void ReceiveRawCommand(IIRCPlugin sender, string command)
+        public override void ReceiveRawCommand(IIRCPlugin sender, string command)
         {
             IrcMessage message;
             if (!IrcMessage.TryParse(command, out message))
@@ -35,28 +25,16 @@
             }
         }
 
-        public string Name
+        public override void Initialize()
         {
-            get { return this.name; }
+            this.Name = "Say Plugin";
+            this.Description = "Plugin that makes the client speak.";
+            this.Version = "0.01";
+            this.Command = "!say";
         }
 
-        public string Description
+        public override void Dispose()
         {
-            get { return this.description; }
-        }
-
-        public string Version
-        {
-            get { return this.version; }
-        }
-
-        public void Dispose()
-        {
-        }
-
-        public void Initialize()
-        {
-            Console.WriteLine(this.Name + " Loaded!");
         }
     }
 }

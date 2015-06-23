@@ -60,6 +60,10 @@
       <Project>{bd3195bb-c986-4e39-a69d-0d61f520d480}</Project>
       <Name>SoloBot.IRC.Interface</Name>
     </ProjectReference>
+    <ProjectReference Include="..\SoloBot.Plugins.Core\SoloBot.Plugins.Core.csproj">
+      <Project>{f473f47c-f922-42b1-87f0-854d692bdb12}</Project>
+      <Name>SoloBot.Plugins.Core</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

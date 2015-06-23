@@ -44,12 +44,17 @@
     <Compile Include="Models\IRCClientPluginBase.cs">
       <ExcludeFromStyleCop>False</ExcludeFromStyleCop>
     </Compile>
+    <Compile Include="Models\IRCCommandPluginBase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SoloBot.Core\SoloBot.Core.csproj">
       <Project>{82de8320-ac2d-4a6f-bd0c-b6b2e5d52e32}</Project>
       <Name>SoloBot.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SoloBot.IRC.Command.Interface\SoloBot.IRC.Command.Interface.csproj">
+      <Project>{f5d621ee-06cf-448d-9947-0099f0beb2db}</Project>
+      <Name>SoloBot.IRC.Command.Interface</Name>
     </ProjectReference>
     <ProjectReference Include="..\SoloBot.IRC.Interface\SoloBot.IRC.Interface.csproj">
       <Project>{bd3195bb-c986-4e39-a69d-0d61f520d480}</Project>
