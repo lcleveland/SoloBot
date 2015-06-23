@@ -1,19 +1,12 @@
 ﻿namespace SoloBot.Plugins.Core.Models
 {
     using SoloBot.Log.Interface;
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
-    using System.Threading.Tasks;
 
     public abstract class SoloBotLoggerPluginBase : ISoloBotLogger
     {
         private string name;
         private string description;
         private string version;
-
-        public abstract void Log(string message);
 
         public string Name
         {
@@ -57,5 +50,7 @@
         public abstract void Initialize();
 
         public abstract void Dispose();
+
+        public abstract void Log(string message);
     }
 }
