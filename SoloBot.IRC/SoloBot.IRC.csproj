@@ -54,6 +54,10 @@
       <Project>{82de8320-ac2d-4a6f-bd0c-b6b2e5d52e32}</Project>
       <Name>SoloBot.Core</Name>
     </ProjectReference>
+    <ProjectReference Include="..\SoloBot.IRC.Command\SoloBot.IRC.Command.csproj">
+      <Project>{90df7c9b-6bca-4f22-931c-3168c47c9773}</Project>
+      <Name>SoloBot.IRC.Command</Name>
+    </ProjectReference>
     <ProjectReference Include="..\SoloBot.IRC.Interface\SoloBot.IRC.Interface.csproj">
       <Project>{bd3195bb-c986-4e39-a69d-0d61f520d480}</Project>
       <Name>SoloBot.IRC.Interface</Name>

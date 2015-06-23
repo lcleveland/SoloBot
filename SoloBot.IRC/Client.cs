@@ -1,6 +1,7 @@
 ﻿namespace SoloBot.IRC
 {
     using SoloBot.Core.Models;
+    using SoloBot.IRC.Command;
     using System;
 
     /// <summary>
@@ -14,6 +15,11 @@
         private static Client singletonClient;
 
         /// <summary>
+        /// The command plugins.
+        /// </summary>
+        private static IRCCommands singletonCommands;
+
+        /// <summary>
         /// Handles loading the IRC client plugins.
         /// </summary>
         private PluginHandler pluginHandler;
@@ -25,6 +31,7 @@
         {
             // Todo: Make sure plugin folders exist and if not create it.
             this.pluginHandler = new PluginHandler();
+            singletonCommands = IRCCommands.GetCommands();
             this.pluginHandler.InitializePlugins();
         }
 
@@ -36,7 +43,7 @@
         /// <summary>
         /// Static method to create a new Client object.
         /// </summary>
-        /// <returns>New Client object.</returns>
+        /// <returns>The Client object.</returns>
         public static Client GetClient()
         {
             if (singletonClient == null)
@@ -63,6 +70,7 @@
         {
             this.pluginHandler.RawMessageReceived += this.RawMessageReceived;
             this.pluginHandler.RawMessageReceived += this.PluginHandler_RawMessageReceived;
+            singletonCommands.RawMessageReceived += this.RawMessageReceived;
             this.pluginHandler.Start();
         }
 
@@ -72,6 +80,9 @@
         public void Stop()
         {
             this.pluginHandler.Stop();
+            this.pluginHandler.RawMessageReceived -= this.RawMessageReceived;
+            this.pluginHandler.RawMessageReceived -= this.PluginHandler_RawMessageReceived;
+            singletonCommands.RawMessageReceived -= this.RawMessageReceived;
         }
 
         /// <summary>
@@ -90,6 +101,7 @@
         {
             this.pluginHandler = null;
             singletonClient = null;
+            singletonCommands = null;
         }
 
         /// <summary>
