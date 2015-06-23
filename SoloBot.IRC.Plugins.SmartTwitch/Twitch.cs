@@ -7,7 +7,7 @@
     using System.ComponentModel.Composition;
 
     /// <summary>
-    /// SmartIRC4net IRC client plugin.
+    /// SmartIRC4net IRC client plugin that doesn't use the plugin base.
     /// </summary>
     [Export(typeof(IIRCPlugin))]
     public class Twitch : IIRCPlugin
@@ -109,6 +109,13 @@
         #region Public Methods
 
         /// <summary>
+        /// Initializes the plugin.
+        /// </summary>
+        public void Initialize()
+        {
+        }
+
+        /// <summary>
         /// Starts the client.
         /// </summary>
         public void Start() // Todo: Pass in connection details.
@@ -207,10 +214,5 @@
         }
 
         #endregion Event Handlers
-
-
-        public void Initialize()
-        {
-        }
     }
 }

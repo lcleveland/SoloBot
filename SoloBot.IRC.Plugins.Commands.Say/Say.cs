@@ -54,7 +54,6 @@
         {
         }
 
-
         public void Initialize()
         {
             Console.WriteLine(this.Name + " Loaded!");
