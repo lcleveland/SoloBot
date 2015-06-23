@@ -192,7 +192,7 @@
         /// </summary>
         /// <param name="sender">The sender.</param>
         /// <param name="e">SoloBot IRCEventArgs object.</param>
-        public void OnReceivedRawMessage(object sender, IRCEventArgs e)
+        public void OnRawMessageReceived(object sender, IRCEventArgs e)
         {
             if (this.RawMessageReceived != null)
             {
@@ -207,7 +207,7 @@
         /// <param name="e">The event arguments.</param>
         private void Client_OnRawMessage(object sender, IrcEventArgs e)
         {
-            this.OnReceivedRawMessage(sender, new IRCEventArgs(e.Data.RawMessage));
+            this.OnRawMessageReceived(sender, new IRCEventArgs(e.Data.RawMessage));
         }
 
         /// <summary>

@@ -40,6 +40,6 @@
         /// </summary>
         /// <param name="sender">The object that is sending the event, usually (this).</param>
         /// <param name="e">The event arguments.</param>
-        void OnReceivedRawMessage(object sender, IRCEventArgs e);
+        void OnRawMessageReceived(object sender, IRCEventArgs e);
     }
 }
