@@ -52,6 +52,10 @@
       <Project>{22fbaf06-23e5-4e7c-a7ab-e7e89cfb3793}</Project>
       <Name>SoloBot.Log.Interface</Name>
     </ProjectReference>
+    <ProjectReference Include="..\SoloBot.Plugins.Core\SoloBot.Plugins.Core.csproj">
+      <Project>{f473f47c-f922-42b1-87f0-854d692bdb12}</Project>
+      <Name>SoloBot.Plugins.Core</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

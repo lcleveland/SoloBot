@@ -1,6 +1,7 @@
 ﻿namespace SoloBot.Log.Plugins.TextLogger
 {
     using SoloBot.Log.Interface;
+    using SoloBot.Plugins.Core.Models;
     using System.ComponentModel.Composition;
     using System.IO;
 
@@ -8,76 +9,27 @@
     /// Plugin that logs to a text file.
     /// </summary>
     [Export(typeof(ISoloBotLogger))]
-    public class Logger : ISoloBotLogger
+    public class Logger : SoloBotLoggerPluginBase
     {
-        /// <summary>
-        /// Plugin name.
-        /// </summary>
-        private string name = "SoloBot Logger Plugin";
-
-        /// <summary>
-        /// Plugin description.
-        /// </summary>
-        private string description = "Plugin that logs to a text file.";
-
-        /// <summary>
-        /// Plugin version.
-        /// </summary>
-        private string version = "0.01";
-
-        /// <summary>
-        /// Gets the plugin name.
-        /// </summary>
-        public string Name
-        {
-            get
-            {
-                return this.name;
-            }
-        }
-
-        /// <summary>
-        /// Gets the plugin description.
-        /// </summary>
-        public string Description
-        {
-            get
-            {
-                return this.description;
-            }
-        }
-
-        /// <summary>
-        /// Gets the plugin version.
-        /// </summary>
-        public string Version
-        {
-            get
-            {
-                return this.version;
-            }
-        }
-
         /// <summary>
         /// Logs a message to the text file.
         /// </summary>
         /// <param name="message">The message to log.</param>
-        public void Log(string message)
+        public override void Log(string message)
         {
             StreamWriter sw = File.AppendText("PluginLog.txt");
             sw.WriteLine(message);
             sw.Close();
         }
 
-        /// <summary>
-        /// Disposes of the plugin.
-        /// </summary>
-        public void Dispose()
+        public override void Initialize()
         {
+            this.Name = "SoloBot Logger";
+            this.Description = "Plugin that logs to a text file.";
+            this.Version = "0.01";
         }
 
-
-        public void Initialize()
+        public override void Dispose()
         {
         }
     }

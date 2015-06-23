@@ -45,6 +45,7 @@
       <ExcludeFromStyleCop>False</ExcludeFromStyleCop>
     </Compile>
     <Compile Include="Models\IRCCommandPluginBase.cs" />
+    <Compile Include="Models\SoloBotLoggerPluginBase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -59,6 +60,10 @@
     <ProjectReference Include="..\SoloBot.IRC.Interface\SoloBot.IRC.Interface.csproj">
       <Project>{bd3195bb-c986-4e39-a69d-0d61f520d480}</Project>
       <Name>SoloBot.IRC.Interface</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SoloBot.Log.Interface\SoloBot.Log.Interface.csproj">
+      <Project>{22fbaf06-23e5-4e7c-a7ab-e7e89cfb3793}</Project>
+      <Name>SoloBot.Log.Interface</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
