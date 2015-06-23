@@ -26,7 +26,7 @@
         private string version = "0.01";
 
         /// <summary>
-        /// Gets or sets the plugin name.
+        /// Gets the plugin name.
         /// </summary>
         public string Name
         {
@@ -34,15 +34,10 @@
             {
                 return this.name;
             }
-
-            set
-            {
-                this.name = value;
-            }
         }
 
         /// <summary>
-        /// Gets or sets the plugin description.
+        /// Gets the plugin description.
         /// </summary>
         public string Description
         {
@@ -50,26 +45,16 @@
             {
                 return this.description;
             }
-
-            set
-            {
-                this.description = value;
-            }
         }
 
         /// <summary>
-        /// Gets or sets the plugin version.
+        /// Gets the plugin version.
         /// </summary>
         public string Version
         {
             get
             {
                 return this.version;
-            }
-
-            set
-            {
-                this.version = value;
             }
         }
 

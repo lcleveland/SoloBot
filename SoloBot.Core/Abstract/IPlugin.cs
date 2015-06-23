@@ -10,16 +10,16 @@
         /// <summary>
         /// Gets or sets the plugin name.
         /// </summary>
-        string Name { get; set; }
+        string Name { get; }
 
         /// <summary>
         /// Gets or sets the plugin description.
         /// </summary>
-        string Description { get; set; }
+        string Description { get; }
 
         /// <summary>
         /// Gets or sets the plugin version.
         /// </summary>
-        string Version { get; set; }
+        string Version { get; }
     }
 }

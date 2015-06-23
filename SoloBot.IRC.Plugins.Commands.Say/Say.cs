@@ -1,11 +1,11 @@
-﻿using IrcMessageSharp;
-using SoloBot.IRC.Command.Interface;
-using SoloBot.IRC.Interface;
-using System;
-using System.ComponentModel.Composition;
-
-namespace SoloBot.IRC.Plugins.Commands.Say
+﻿namespace SoloBot.IRC.Plugins.Commands.Say
 {
+    using IrcMessageSharp;
+    using SoloBot.IRC.Command.Interface;
+    using SoloBot.IRC.Interface;
+    using System;
+    using System.ComponentModel.Composition;
+
     [Export(typeof(IIRCCommand))]
     public class Say : IIRCCommand
     {
@@ -28,38 +28,17 @@ namespace SoloBot.IRC.Plugins.Commands.Say
 
         public string Name
         {
-            get
-            {
-                throw new NotImplementedException();
-            }
-            set
-            {
-                throw new NotImplementedException();
-            }
+            get { throw new NotImplementedException(); }
         }
 
         public string Description
         {
-            get
-            {
-                throw new NotImplementedException();
-            }
-            set
-            {
-                throw new NotImplementedException();
-            }
+            get { throw new NotImplementedException(); }
         }
 
         public string Version
         {
-            get
-            {
-                throw new NotImplementedException();
-            }
-            set
-            {
-                throw new NotImplementedException();
-            }
+            get { throw new NotImplementedException(); }
         }
 
         public void Dispose()
