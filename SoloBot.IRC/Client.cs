@@ -2,6 +2,7 @@
 {
     using SoloBot.Core.Models;
     using SoloBot.IRC.Command;
+    using SoloBot.IRC.Interface;
     using System;
 
     /// <summary>
@@ -70,7 +71,6 @@
         {
             this.pluginHandler.RawMessageReceived += this.RawMessageReceived;
             this.pluginHandler.RawMessageReceived += this.PluginHandler_RawMessageReceived;
-            singletonCommands.RawMessageReceived += this.RawMessageReceived;
             this.pluginHandler.Start();
         }
 
@@ -82,7 +82,6 @@
             this.pluginHandler.Stop();
             this.pluginHandler.RawMessageReceived -= this.RawMessageReceived;
             this.pluginHandler.RawMessageReceived -= this.PluginHandler_RawMessageReceived;
-            singletonCommands.RawMessageReceived -= this.RawMessageReceived;
         }
 
         /// <summary>
@@ -112,6 +111,7 @@
         private void PluginHandler_RawMessageReceived(object sender, IRCEventArgs e)
         {
             Console.WriteLine(e.Message);
+            singletonCommands.SendCommand((IIRCPlugin)sender, e.Message);
         }
     }
 }

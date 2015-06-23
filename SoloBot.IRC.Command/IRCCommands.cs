@@ -1,6 +1,6 @@
 ﻿namespace SoloBot.IRC.Command
 {
-    using SoloBot.Core.Models;
+    using SoloBot.IRC.Interface;
     using System;
 
     /// <summary>
@@ -25,13 +25,7 @@
         {
             this.pluginHandler = new PluginHandler();
             this.pluginHandler.InitializePlugins();
-            this.pluginHandler.RawMessageReceived += this.RawMessageReceived;
         }
-
-        /// <summary>
-        /// Event used to send commands to the command plugins.
-        /// </summary>
-        public event EventHandler<IRCEventArgs> RawMessageReceived;
 
         /// <summary>
         /// Static method to create a new IRCCommands object.
@@ -45,6 +39,16 @@
             }
 
             return singletonCommands;
+        }
+
+        /// <summary>
+        /// Distributes the commands to the command plugins.
+        /// </summary>
+        /// <param name="sender">The IRC client sending the command.</param>
+        /// <param name="command">The raw IRC command.</param>
+        public void SendCommand(IIRCPlugin sender, string command)
+        {
+            this.pluginHandler.SendCommand(sender, command);
         }
 
         /// <summary>

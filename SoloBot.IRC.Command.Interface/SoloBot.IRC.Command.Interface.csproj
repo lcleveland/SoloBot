@@ -48,6 +48,10 @@
       <Project>{82de8320-ac2d-4a6f-bd0c-b6b2e5d52e32}</Project>
       <Name>SoloBot.Core</Name>
     </ProjectReference>
+    <ProjectReference Include="..\SoloBot.IRC.Interface\SoloBot.IRC.Interface.csproj">
+      <Project>{bd3195bb-c986-4e39-a69d-0d61f520d480}</Project>
+      <Name>SoloBot.IRC.Interface</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

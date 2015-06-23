@@ -152,8 +152,9 @@
             {
                 throw new Exception(); // Todo: Log Exceptions
             }
-            catch (Exception)
+            catch (Exception e)
             {
+                Console.WriteLine(e);
                 throw new Exception(); // Todo: Log Exceptions
             }
         }
@@ -207,7 +208,7 @@
         /// <param name="e">The event arguments.</param>
         private void Client_OnRawMessage(object sender, IrcEventArgs e)
         {
-            this.OnRawMessageReceived(sender, new IRCEventArgs(e.Data.RawMessage));
+            this.OnRawMessageReceived(this, new IRCEventArgs(e.Data.RawMessage));
         }
 
         /// <summary>

@@ -3,6 +3,7 @@
     using SoloBot.Core.Abstract;
     using SoloBot.Core.Models;
     using SoloBot.IRC.Command.Interface;
+    using SoloBot.IRC.Interface;
     using System;
     using System.Collections.Generic;
     using System.ComponentModel.Composition;
@@ -20,11 +21,6 @@
         private AggregateCatalog catalog = new AggregateCatalog();
 
         /// <summary>
-        /// Event used to pass messages to the command plugins.
-        /// </summary>
-        public event EventHandler<IRCEventArgs> RawMessageReceived;
-
-        /// <summary>
         /// Gets or sets the list of plugins that are loaded.
         /// </summary>
         [ImportMany(typeof(IIRCCommand))]
@@ -39,10 +35,6 @@
             this.catalog.Catalogs.Add(new DirectoryCatalog(this.GetConfigurationPath(), "*.dll"));
             CompositionContainer compositionContainer = new CompositionContainer(this.catalog);
             compositionContainer.ComposeParts(this);
-            foreach (IIRCCommand plugin in this.PluginList)
-            {
-                plugin.RawMessageReceived += this.RawMessageReceived;
-            }
         }
 
         /// <summary>
@@ -54,6 +46,19 @@
             Configuration pluginConfig = ConfigurationManager.OpenExeConfiguration(this.GetType().Assembly.Location);
             AppSettingsSection pluginConfigAppSettings = (AppSettingsSection)pluginConfig.GetSection("appSettings");
             return pluginConfigAppSettings.Settings["PluginPath"].Value;
+        }
+
+        /// <summary>
+        /// Distributes the commands to the command plugins.
+        /// </summary>
+        /// <param name="sender">The IRC client sending the command.</param>
+        /// <param name="command">The raw IRC command.</param>
+        public void SendCommand(IIRCPlugin sender, string command)
+        {
+            foreach (IIRCCommand plugin in this.PluginList)
+            {
+                plugin.ReceiveRawCommand(sender, command);
+            }
         }
 
         /// <summary>
