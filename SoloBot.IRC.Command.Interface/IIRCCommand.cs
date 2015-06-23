@@ -18,5 +18,10 @@
         /// </summary>
         /// <param name="command"></param>
         void ReceiveRawCommand(IIRCPlugin sender, string command);
+
+        /// <summary>
+        /// Initializes the plugin.
+        /// </summary>
+        void Initialize();
     }
 }

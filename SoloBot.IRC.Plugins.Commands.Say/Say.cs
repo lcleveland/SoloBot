@@ -48,5 +48,10 @@
         public void Dispose()
         {
         }
+
+
+        public void Initialize()
+        {
+        }
     }
 }

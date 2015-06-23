@@ -60,5 +60,10 @@
                 sender.SendCommand("privmsg " + sender.Channel + " :" + this.Description);
             }
         }
+
+
+        public void Initialize()
+        {
+        }
     }
 }
