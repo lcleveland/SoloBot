@@ -43,7 +43,7 @@
 
             try
             {
-                this.client.Login(Properties.Settings.Default.Username, Properties.Settings.Default.Username, 3, Properties.Settings.Default.Username, Properties.Settings.Default.AuthKey);
+                this.client.Login("S0L0B0T", "S0L0B0T", 3, "S0L0B0T", Properties.Settings.Default.AuthKey);
                 this.client.Listen();
             }
             catch (ConnectionException ce)
@@ -65,7 +65,7 @@
 
         private void Client_OnRawMessage(object sender, IrcEventArgs e)
         {
-            this.OnRawMessageReceived(this, new IRCEventArgs(e.Data.Message)); // Converts SmartIrc4net's event into SoloBot's event format.
+            this.OnRawMessageReceived(this, new IRCEventArgs(e.Data.RawMessage)); // Converts SmartIrc4net's event into SoloBot's event format. You must send the raw IRC message.
         }
 
         public override void Stop()

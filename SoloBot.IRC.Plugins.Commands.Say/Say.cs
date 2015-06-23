@@ -21,7 +21,11 @@
 
         public void ReceiveRawCommand(IIRCPlugin sender, string command)
         {
-            var message = IrcMessage.Parse(command);
+            IrcMessage message;
+            if (!IrcMessage.TryParse(command, out message))
+            {
+                return;
+            }
             foreach (var item in message.Params)
             {
                 if (item.StartsWith("!say"))
