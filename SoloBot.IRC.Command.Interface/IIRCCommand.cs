@@ -16,7 +16,8 @@
         /// <summary>
         /// Receives and handles raw IRC commands
         /// </summary>
-        /// <param name="command"></param>
+        /// <param name="sender">The IRC client who received the command.</param>
+        /// <param name="command">The raw IRC command.</param>
         void ReceiveRawCommand(IIRCPlugin sender, string command);
     }
 }

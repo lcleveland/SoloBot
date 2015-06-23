@@ -2,12 +2,29 @@
 {
     using SoloBot.Log.Interface;
 
+    /// <summary>
+    /// Abstract base class for a logger plugin.
+    /// </summary>
     public abstract class SoloBotLoggerPluginBase : ISoloBotLogger
     {
+        /// <summary>
+        /// The plugin name.
+        /// </summary>
         private string name;
+
+        /// <summary>
+        /// The plugin description.
+        /// </summary>
         private string description;
+
+        /// <summary>
+        /// The plugin version.
+        /// </summary>
         private string version;
 
+        /// <summary>
+        /// Gets or sets the plugin name.
+        /// </summary>
         public string Name
         {
             get
@@ -21,6 +38,9 @@
             }
         }
 
+        /// <summary>
+        /// Gets or sets the plugin description.
+        /// </summary>
         public string Description
         {
             get
@@ -34,6 +54,9 @@
             }
         }
 
+        /// <summary>
+        /// Gets or sets the plugin version.
+        /// </summary>
         public string Version
         {
             get
@@ -47,10 +70,21 @@
             }
         }
 
+        /// <summary>
+        /// Used to initialize the plugin.
+        /// This is where the plugin details will be set.
+        /// </summary>
         public abstract void Initialize();
 
-        public abstract void Dispose();
-
+        /// <summary>
+        /// Called by the plugin handler when there is a message to log.
+        /// </summary>
+        /// <param name="message">The message to log.</param>
         public abstract void Log(string message);
+
+        /// <summary>
+        /// Disposes of the plugin.
+        /// </summary>
+        public abstract void Dispose();
     }
 }

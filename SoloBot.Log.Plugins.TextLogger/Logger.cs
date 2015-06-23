@@ -22,6 +22,9 @@
             sw.Close();
         }
 
+        /// <summary>
+        /// Initializes the plugin.
+        /// </summary>
         public override void Initialize()
         {
             this.Name = "SoloBot Logger";
@@ -29,6 +32,9 @@
             this.Version = "0.01";
         }
 
+        /// <summary>
+        /// Disposes of the plugin.
+        /// </summary>
         public override void Dispose()
         {
         }

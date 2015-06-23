@@ -37,7 +37,7 @@
         public event EventHandler<IRCEventArgs> RawMessageReceived;
 
         /// <summary>
-        /// Gets the current channel.
+        /// Gets or sets the current channel.
         /// </summary>
         public string Channel
         {
@@ -56,7 +56,7 @@
         }
 
         /// <summary>
-        /// Gets the plugin name.
+        /// Gets or sets the plugin name.
         /// </summary>
         public string Name
         {
@@ -72,7 +72,7 @@
         }
 
         /// <summary>
-        /// Gets the plugin description.
+        /// Gets or sets the plugin description.
         /// </summary>
         public string Description
         {
@@ -88,7 +88,7 @@
         }
 
         /// <summary>
-        /// Gets the plugin version.
+        /// Gets or sets the plugin version.
         /// </summary>
         public string Version
         {

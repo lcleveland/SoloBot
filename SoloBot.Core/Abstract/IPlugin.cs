@@ -8,17 +8,17 @@
     public interface IPlugin : IDisposable
     {
         /// <summary>
-        /// Gets or sets the plugin name.
+        /// Gets the plugin name.
         /// </summary>
         string Name { get; }
 
         /// <summary>
-        /// Gets or sets the plugin description.
+        /// Gets the plugin description.
         /// </summary>
         string Description { get; }
 
         /// <summary>
-        /// Gets or sets the plugin version.
+        /// Gets the plugin version.
         /// </summary>
         string Version { get; }
 
