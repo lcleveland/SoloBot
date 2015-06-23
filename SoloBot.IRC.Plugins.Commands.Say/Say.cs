@@ -3,15 +3,19 @@
     using IrcMessageSharp;
     using SoloBot.IRC.Command.Interface;
     using SoloBot.IRC.Interface;
-    using System;
     using System.ComponentModel.Composition;
 
     [Export(typeof(IIRCCommand))]
     public class Say : IIRCCommand
     {
+        private string command = "!say";
+        private string name = "Say Plugin";
+        private string description = "Plugin that makes the client speak.";
+        private string version = "0.01";
+
         public string Command
         {
-            get { throw new NotImplementedException(); }
+            get { return this.command; }
         }
 
         public void ReceiveRawCommand(IIRCPlugin sender, string command)
@@ -21,29 +25,28 @@
             {
                 if (item.StartsWith("!say"))
                 {
-                    sender.SendCommand("privmsg " + sender.Channel + " : " + item.Substring(item.IndexOf(' ') + 1));
+                    sender.SendCommand("privmsg " + sender.Channel + " :" + item.Substring(item.IndexOf(' ') + 1));
                 }
             }
         }
 
         public string Name
         {
-            get { throw new NotImplementedException(); }
+            get { return this.name; }
         }
 
         public string Description
         {
-            get { throw new NotImplementedException(); }
+            get { return this.description; }
         }
 
         public string Version
         {
-            get { throw new NotImplementedException(); }
+            get { return this.version; }
         }
 
         public void Dispose()
         {
-            throw new NotImplementedException();
         }
     }
 }
