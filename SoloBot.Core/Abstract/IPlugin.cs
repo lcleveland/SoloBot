@@ -21,5 +21,10 @@
         /// Gets or sets the plugin version.
         /// </summary>
         string Version { get; }
+
+        /// <summary>
+        /// Initializes the plugin.
+        /// </summary>
+        void Initialize();
     }
 }

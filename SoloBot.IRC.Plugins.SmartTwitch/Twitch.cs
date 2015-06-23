@@ -178,7 +178,7 @@
         /// </summary>
         /// <param name="sender">The sender.</param>
         /// <param name="e">SoloBot IRCEventArgs object.</param>
-        public void OnRawMessageReceived(object sender, IRCEventArgs e)
+        public void OnRawMessageReceived(IIRCPlugin sender, IRCEventArgs e)
         {
             if (this.RawMessageReceived != null)
             {
@@ -207,5 +207,10 @@
         }
 
         #endregion Event Handlers
+
+
+        public void Initialize()
+        {
+        }
     }
 }

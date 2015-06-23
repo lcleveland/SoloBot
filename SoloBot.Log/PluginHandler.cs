@@ -32,6 +32,10 @@
             this.catalog.Catalogs.Add(new DirectoryCatalog(this.GetConfigurationPath(), "*.dll"));
             CompositionContainer compositionContainer = new CompositionContainer(this.catalog);
             compositionContainer.ComposeParts(this);
+            foreach (ISoloBotLogger plugin in this.PluginList)
+            {
+                plugin.Initialize();
+            }
         }
 
         /// <summary>
