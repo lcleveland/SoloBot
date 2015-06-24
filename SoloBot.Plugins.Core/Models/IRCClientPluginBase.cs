@@ -12,11 +12,6 @@
     public abstract class IRCClientPluginBase : IIRCPlugin
     {
         /// <summary>
-        /// The current channel.
-        /// </summary>
-        private string channel;
-
-        /// <summary>
         /// The plugin name.
         /// </summary>
         private string name;
@@ -35,25 +30,6 @@
         /// The SoloBot IRC message event.
         /// </summary>
         public event EventHandler<IRCEventArgs> RawMessageReceived;
-
-        /// <summary>
-        /// Gets or sets the current channel.
-        /// </summary>
-        public string Channel
-        {
-            get
-            {
-                return this.channel;
-            }
-
-            protected set
-            {
-                if (this.channel != value)
-                {
-                    this.channel = value;
-                }
-            }
-        }
 
         /// <summary>
         /// Gets or sets the plugin name.

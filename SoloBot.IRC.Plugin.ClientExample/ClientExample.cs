@@ -47,7 +47,6 @@
             this.client.SendDelay = 200;
             this.client.ActiveChannelSyncing = true;
             this.client.OnRawMessage += this.Client_OnRawMessage;
-            this.client.OnJoin += this.Client_OnJoin;
             try
             {
                 this.client.Connect("irc.twitch.tv", 6667);
@@ -82,7 +81,6 @@
         {
             this.client.Disconnect();
             this.client.OnRawMessage -= this.Client_OnRawMessage;
-            this.client.OnJoin -= this.Client_OnJoin;
         }
 
         /// <summary>
@@ -110,20 +108,6 @@
             {
                 this.logger.Dispose();
                 this.logger = null;
-            }
-        }
-
-        /// <summary>
-        /// Event handler that is triggered when the client joins a channel.
-        /// Used to set the current channel property.
-        /// </summary>
-        /// <param name="sender">The client.</param>
-        /// <param name="e">The event arguments.</param>
-        private void Client_OnJoin(object sender, JoinEventArgs e)
-        {
-            if (this.Channel != e.Channel)
-            {
-                this.Channel = e.Channel;
             }
         }
 

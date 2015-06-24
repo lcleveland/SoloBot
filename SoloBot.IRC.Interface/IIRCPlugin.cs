@@ -15,11 +15,6 @@
         event EventHandler<IRCEventArgs> RawMessageReceived;
 
         /// <summary>
-        /// Gets the current channel.
-        /// </summary>
-        string Channel { get; }
-
-        /// <summary>
         /// Starts the IRC client.
         /// </summary>
         void Start();
