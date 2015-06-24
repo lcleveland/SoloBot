@@ -35,6 +35,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SoloBot.Plugins.Core", "Sol
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SoloBot.IRC.Plugin.ClientExample", "SoloBot.IRC.Plugin.ClientExample\SoloBot.IRC.Plugin.ClientExample.csproj", "{A4EAA213-F180-49F3-8069-65D7446BEEDE}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SoloBot.IRC.Plugins.Commands.LeagueInfo", "SoloBot.IRC.Plugins.Commands.LeagueInfo\SoloBot.IRC.Plugins.Commands.LeagueInfo.csproj", "{EE0607F9-F789-4465-8665-96B388B16B5A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -93,6 +95,10 @@ Global
 		{A4EAA213-F180-49F3-8069-65D7446BEEDE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A4EAA213-F180-49F3-8069-65D7446BEEDE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A4EAA213-F180-49F3-8069-65D7446BEEDE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EE0607F9-F789-4465-8665-96B388B16B5A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EE0607F9-F789-4465-8665-96B388B16B5A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EE0607F9-F789-4465-8665-96B388B16B5A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EE0607F9-F789-4465-8665-96B388B16B5A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -101,5 +107,6 @@ Global
 		{CF1218F1-415B-4762-A0A1-0BC4EBC859C3} = {4DCE3CCF-915A-4CFC-B249-82D9EB86A9BA}
 		{04DD64D8-9467-4FEC-AFFB-46275535337E} = {38BFBD3A-2BD2-420A-AC13-89A7F25F0319}
 		{A4EAA213-F180-49F3-8069-65D7446BEEDE} = {1F846E80-B52F-4375-9C92-7145A3C60760}
+		{EE0607F9-F789-4465-8665-96B388B16B5A} = {38BFBD3A-2BD2-420A-AC13-89A7F25F0319}
 	EndGlobalSection
 EndGlobal
