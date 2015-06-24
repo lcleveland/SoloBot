@@ -31,12 +31,5 @@
             this.Description = "Plugin that logs to a text file.";
             this.Version = "0.01";
         }
-
-        /// <summary>
-        /// Disposes of the plugin.
-        /// </summary>
-        public override void Dispose()
-        {
-        }
     }
 }

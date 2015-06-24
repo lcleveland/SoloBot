@@ -44,12 +44,5 @@
             this.Version = "0.01";
             this.Command = "!say";
         }
-
-        /// <summary>
-        /// Disposes the plugin.
-        /// </summary>
-        public override void Dispose()
-        {
-        }
     }
 }

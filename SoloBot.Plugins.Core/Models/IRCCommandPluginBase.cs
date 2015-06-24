@@ -2,6 +2,7 @@
 {
     using SoloBot.IRC.Command.Interface;
     using SoloBot.IRC.Interface;
+    using System;
 
     /// <summary>
     /// Abstract base class for an IRC command plugin.
@@ -108,6 +109,18 @@
         /// <summary>
         /// Disposes of the plugin.
         /// </summary>
-        public abstract void Dispose();
+        public void Dispose()
+        {
+            this.Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        /// <summary>
+        /// Disposes of the plugin.
+        /// </summary>
+        /// <param name="disposing">Is disposing.</param>
+        protected virtual void Dispose(bool disposing)
+        {
+        }
     }
 }

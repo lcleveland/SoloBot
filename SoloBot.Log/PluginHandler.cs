@@ -2,6 +2,7 @@
 {
     using SoloBot.Core.Abstract;
     using SoloBot.Log.Interface;
+    using System;
     using System.Collections.Generic;
     using System.ComponentModel.Composition;
     using System.ComponentModel.Composition.Hosting;
@@ -66,10 +67,8 @@
         /// </summary>
         public void Dispose()
         {
-            this.catalog.Dispose();
-            this.catalog = null;
-            this.PluginList.Clear();
-            this.PluginList = null;
+            this.Dispose(true);
+            GC.SuppressFinalize(this);
         }
 
         /// <summary>
@@ -90,6 +89,28 @@
             }
 
             return pluginInfo.ToArray();
+        }
+
+        /// <summary>
+        /// Disposes of the plugin manager
+        /// </summary>
+        /// <param name="disposing">Is disposing.</param>
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                if (this.catalog != null)
+                {
+                    this.catalog.Dispose();
+                    this.catalog = null;
+                }
+
+                if (this.PluginList != null)
+                {
+                    this.PluginList.Clear();
+                    this.PluginList = null;
+                }
+            }
         }
     }
 }

@@ -97,10 +97,20 @@
         /// <summary>
         /// Disposes of the objects used.
         /// </summary>
-        public override void Dispose()
+        /// <param name="disposing">Is disposing.</param>
+        protected override void Dispose(bool disposing)
         {
-            this.client = null;
-            this.logger = null;
+            if (this.client != null)
+            {
+                this.client.Disconnect();
+                this.client = null;
+            }
+
+            if (this.logger != null)
+            {
+                this.logger.Dispose();
+                this.logger = null;
+            }
         }
 
         /// <summary>

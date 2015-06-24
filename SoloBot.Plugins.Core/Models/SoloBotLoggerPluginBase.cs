@@ -1,6 +1,7 @@
 ﻿namespace SoloBot.Plugins.Core.Models
 {
     using SoloBot.Log.Interface;
+    using System;
 
     /// <summary>
     /// Abstract base class for a logger plugin.
@@ -85,6 +86,18 @@
         /// <summary>
         /// Disposes of the plugin.
         /// </summary>
-        public abstract void Dispose();
+        public void Dispose()
+        {
+            this.Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        /// <summary>
+        /// Disposes of the plugin.
+        /// </summary>
+        /// <param name="disposing">Is disposing.</param>
+        protected virtual void Dispose(bool disposing)
+        {
+        }
     }
 }

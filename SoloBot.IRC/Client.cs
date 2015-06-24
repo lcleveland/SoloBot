@@ -98,9 +98,36 @@
         /// </summary>
         public void Dispose()
         {
-            this.pluginHandler = null;
-            singletonClient = null;
-            singletonCommands = null;
+            this.Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        /// <summary>
+        /// Disposes of the client object.
+        /// </summary>
+        /// <param name="disposing">Is disposing.</param>
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                if (this.pluginHandler != null)
+                {
+                    this.pluginHandler.Dispose();
+                    this.pluginHandler = null;
+                }
+
+                if (singletonClient != null)
+                {
+                    singletonClient.Dispose();
+                    singletonClient = null;
+                }
+
+                if (singletonCommands != null)
+                {
+                    singletonCommands.Dispose();
+                    singletonCommands = null;
+                }
+            }
         }
 
         /// <summary>

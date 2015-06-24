@@ -65,8 +65,29 @@
         /// </summary>
         public void Dispose()
         {
+            this.Dispose(true);
+            GC.SuppressFinalize(this);
             this.pluginHandler = null;
             singletonCommands = null;
+        }
+
+        /// <summary>
+        /// Disposes of the IRCCommands object.
+        /// </summary>
+        /// <param name="disposing">Is disposing.</param>
+        protected virtual void Dispose(bool disposing)
+        {
+            if (this.pluginHandler != null)
+            {
+                this.pluginHandler.Dispose();
+                this.pluginHandler = null;
+            }
+
+            if (singletonCommands != null) 
+            {
+                singletonCommands.Dispose();
+                singletonCommands = null;
+            }
         }
     }
 }
