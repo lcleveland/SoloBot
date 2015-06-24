@@ -3,6 +3,7 @@
     using IrcMessageSharp;
     using RiotSharp;
     using RiotSharp.StatsEndpoint;
+    using SoloBot.Core.Models;
     using SoloBot.IRC.Command.Interface;
     using SoloBot.IRC.Interface;
     using SoloBot.Plugins.Core.Models;
@@ -38,10 +39,10 @@
         /// </summary>
         /// <param name="sender">The IRC client that got the message.</param>
         /// <param name="command">The command to check.</param>
-        public override void ReceiveRawCommand(IIRCPlugin sender, string command)
+        public override void ReceiveRawCommand(IIRCPlugin sender, IRCEventArgs command)
         {
             IrcMessage message;
-            if (!IrcMessage.TryParse(command, out message))
+            if (!IrcMessage.TryParse(command.Message, out message))
             {
                 return;
             }
@@ -59,14 +60,14 @@
                         var wins = stats.Wins;
                         var losses = stats.Losses;
                         var totKills = stats.AggregatedStats.TotalChampionKills;
-                        sender.SendCommand("privmsg " + sender.Channel + " :" + accountName + " :" +
+                        sender.SendCommand("privmsg " + command.Channel + " :" + accountName + " :" +
                             "Wins: " + wins +
                             " Losses: " + losses +
                             " Total Hero Kills: " + totKills);
                     }
                     catch (RiotSharpException)
                     {
-                        sender.SendCommand("privmsg " + sender.Channel + " :Invalid Command");
+                        sender.SendCommand("privmsg " + command.Channel + " :Invalid Command");
                         return;
                     }
                 }

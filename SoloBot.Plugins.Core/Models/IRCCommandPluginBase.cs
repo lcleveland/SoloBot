@@ -1,5 +1,6 @@
 ﻿namespace SoloBot.Plugins.Core.Models
 {
+    using SoloBot.Core.Models;
     using SoloBot.IRC.Command.Interface;
     using SoloBot.IRC.Interface;
     using System;
@@ -104,7 +105,7 @@
         /// </summary>
         /// <param name="sender">IRC client plugin.</param>
         /// <param name="command">Raw IRC command.</param>
-        public abstract void ReceiveRawCommand(IIRCPlugin sender, string command);
+        public abstract void ReceiveRawCommand(IIRCPlugin sender, IRCEventArgs command);
 
         /// <summary>
         /// Disposes of the plugin.

@@ -1,6 +1,7 @@
 ﻿namespace SoloBot.IRC.Plugins.Commands.Say
 {
     using IrcMessageSharp;
+    using SoloBot.Core.Models;
     using SoloBot.IRC.Command.Interface;
     using SoloBot.IRC.Interface;
     using SoloBot.Plugins.Core.Models;
@@ -17,10 +18,10 @@
         /// </summary>
         /// <param name="sender">The IRC client plugin that got the message.</param>
         /// <param name="command">The raw IRC message.</param>
-        public override void ReceiveRawCommand(IIRCPlugin sender, string command)
+        public override void ReceiveRawCommand(IIRCPlugin sender, IRCEventArgs command)
         {
             IrcMessage message;
-            if (!IrcMessage.TryParse(command, out message))
+            if (!IrcMessage.TryParse(command.Message, out message))
             {
                 return;
             }
@@ -29,7 +30,7 @@
             {
                 if (item.StartsWith("!say"))
                 {
-                    sender.SendCommand("privmsg " + sender.Channel + " :" + item.Substring(item.IndexOf(' ') + 1));
+                    sender.SendCommand("privmsg " + command.Channel + " :" + item.Substring(item.IndexOf(' ') + 1));
                 }
             }
         }

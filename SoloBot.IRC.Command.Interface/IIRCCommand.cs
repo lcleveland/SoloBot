@@ -1,6 +1,7 @@
 ﻿namespace SoloBot.IRC.Command.Interface
 {
     using SoloBot.Core.Abstract;
+    using SoloBot.Core.Models;
     using SoloBot.IRC.Interface;
 
     /// <summary>
@@ -18,6 +19,6 @@
         /// </summary>
         /// <param name="sender">The IRC client who received the command.</param>
         /// <param name="command">The raw IRC command.</param>
-        void ReceiveRawCommand(IIRCPlugin sender, string command);
+        void ReceiveRawCommand(IIRCPlugin sender, IRCEventArgs command);
     }
 }

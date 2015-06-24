@@ -1,5 +1,6 @@
 ﻿namespace SoloBot.IRC.Command
 {
+    using SoloBot.Core.Models;
     using SoloBot.IRC.Interface;
     using System;
 
@@ -46,7 +47,7 @@
         /// </summary>
         /// <param name="sender">The IRC client sending the command.</param>
         /// <param name="command">The raw IRC command.</param>
-        public void SendCommand(IIRCPlugin sender, string command)
+        public void SendCommand(IIRCPlugin sender, IRCEventArgs command)
         {
             this.pluginHandler.SendCommand(sender, command);
         }

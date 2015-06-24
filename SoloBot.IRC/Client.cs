@@ -137,7 +137,7 @@
         /// <param name="e">Message object</param>
         private void PluginHandler_RawMessageReceived(object sender, IRCEventArgs e)
         {
-            singletonCommands.SendCommand((IIRCPlugin)sender, e.Message);
+            singletonCommands.SendCommand((IIRCPlugin)sender, e);
         }
     }
 }

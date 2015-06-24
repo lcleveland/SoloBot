@@ -134,7 +134,7 @@
         /// <param name="e">The event arguments.</param>
         private void Client_OnRawMessage(object sender, IrcEventArgs e)
         {
-            this.OnRawMessageReceived(this, new IRCEventArgs(e.Data.RawMessage)); // Converts SmartIrc4net's event into SoloBot's event format. You must send the raw IRC message.
+            this.OnRawMessageReceived(this, new IRCEventArgs(e.Data.RawMessage, e.Data.Channel)); // Converts SmartIrc4net's event into SoloBot's event format. You must send the raw IRC message.
         }
     }
 }
