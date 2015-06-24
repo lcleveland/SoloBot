@@ -1,6 +1,8 @@
 ﻿namespace SoloBot.UI.Console
 {
+    using SoloBot.Core.Models;
     using SoloBot.IRC;
+    using System;
     using System.Threading;
 
     /// <summary>
@@ -15,12 +17,23 @@
         private static void Main(string[] args)
         {
             Client client = Client.GetClient();
+            client.RawMessageReceived += Client_RawMessageReceived;
             new Thread(new ThreadStart(client.Start)).Start();
             while (true)
             {
                 string cmd = System.Console.ReadLine();
                 client.SendCommand(cmd);
             }
+        }
+
+        /// <summary>
+        /// Sends IRC client messages to the console.
+        /// </summary>
+        /// <param name="sender">IIRCPlugin object</param>
+        /// <param name="e">IRC Event Arguments.</param>
+        private static void Client_RawMessageReceived(object sender, IRCEventArgs e)
+        {
+            Console.WriteLine(e.Message);
         }
     }
 }
