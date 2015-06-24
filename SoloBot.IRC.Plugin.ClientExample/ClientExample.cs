@@ -121,7 +121,10 @@
         /// <param name="e">The event arguments.</param>
         private void Client_OnJoin(object sender, JoinEventArgs e)
         {
-            this.Channel = e.Channel;
+            if (this.Channel != e.Channel)
+            {
+                this.Channel = e.Channel;
+            }
         }
 
         /// <summary>
