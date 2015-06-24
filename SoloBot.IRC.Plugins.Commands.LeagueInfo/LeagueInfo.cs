@@ -56,14 +56,21 @@
                     {
                         var summoner = this.api.GetSummoner(Region.na, accountName);
                         var statSummaries = summoner.GetStatsSummaries();
-                        var stats = statSummaries.First(stat => stat.PlayerStatSummaryType == PlayerStatsSummaryType.RankedSolo5x5);
-                        var wins = stats.Wins;
-                        var losses = stats.Losses;
-                        var totKills = stats.AggregatedStats.TotalChampionKills;
-                        sender.SendCommand("privmsg " + command.Channel + " :" + accountName + " :" +
-                            "Wins: " + wins +
-                            " Losses: " + losses +
-                            " Total Hero Kills: " + totKills);
+                        var stats = statSummaries.FirstOrDefault(stat => stat.PlayerStatSummaryType == PlayerStatsSummaryType.RankedSolo5x5);
+                        if (stats == null)
+                        {
+                            throw new RiotSharpException();
+                        }
+                        else
+                        {
+                            var wins = stats.Wins;
+                            var losses = stats.Losses;
+                            var totKills = stats.AggregatedStats.TotalChampionKills;
+                            sender.SendCommand("privmsg " + command.Channel + " :" + accountName + " :" +
+                                "Wins: " + wins +
+                                " Losses: " + losses +
+                                " Total Hero Kills: " + totKills);
+                        }
                     }
                     catch (RiotSharpException)
                     {
