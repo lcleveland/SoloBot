@@ -65,7 +65,7 @@
             List<string[]> pluginInfo = new List<string[]>();
             foreach (IIRCPlugin plugin in this.PluginList)
             {
-                pluginInfo.Add(new string[] 
+                pluginInfo.Add(new string[]
                 {
                     plugin.Name,
                     plugin.Description,

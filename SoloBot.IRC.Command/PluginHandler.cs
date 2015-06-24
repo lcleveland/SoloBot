@@ -1,10 +1,8 @@
 ﻿namespace SoloBot.IRC.Command
 {
     using SoloBot.Core.Abstract;
-    using SoloBot.Core.Models;
     using SoloBot.IRC.Command.Interface;
     using SoloBot.IRC.Interface;
-    using System;
     using System.Collections.Generic;
     using System.ComponentModel.Composition;
     using System.ComponentModel.Composition.Hosting;
