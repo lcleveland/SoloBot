@@ -9,6 +9,7 @@
     using SoloBot.Plugins.Core.Models;
     using System.ComponentModel.Composition;
     using System.Linq;
+    using System.Threading;
 
     /// <summary>
     /// Plugins that displays some basic League of Legends information.
@@ -40,6 +41,34 @@
         /// <param name="sender">The IRC client that got the message.</param>
         /// <param name="command">The command to check.</param>
         public override void ReceiveRawCommand(IIRCPlugin sender, IRCEventArgs command)
+        {
+            new Thread(delegate() // Handle messages in a different thread so we dont block the incoming messages.
+                {
+                    this.HandleCommand(sender, command);
+                }).Start();
+        }
+
+        /// <summary>
+        /// Disposes of objects.
+        /// </summary>
+        /// <param name="disposing">Is disposing.</param>
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                if (this.api != null)
+                {
+                    this.api = null;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Handles received a command from the plugin handler.
+        /// </summary>
+        /// <param name="sender">The IRC client that got the message.</param>
+        /// <param name="command">The command to check.</param>
+        private void HandleCommand(IIRCPlugin sender, IRCEventArgs command)
         {
             IrcMessage message;
             if (!IrcMessage.TryParse(command.Message, out message))
@@ -81,21 +110,6 @@
                 else if (item.StartsWith("?" + this.Command))
                 {
                     sender.SendCommand("privmsg " + command.Channel + " :!li <username>: " + this.Description);
-                }
-            }
-        }
-
-        /// <summary>
-        /// Disposes of objects.
-        /// </summary>
-        /// <param name="disposing">Is disposing.</param>
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                if (this.api != null)
-                {
-                    this.api = null;
                 }
             }
         }
