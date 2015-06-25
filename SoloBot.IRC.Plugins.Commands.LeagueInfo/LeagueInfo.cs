@@ -74,7 +74,7 @@
                     }
                     catch (RiotSharpException)
                     {
-                        sender.SendCommand("privmsg " + command.Channel + " :Invalid Command");
+                        sender.SendCommand("privmsg " + command.Channel + " :Invalid Lookup");
                         return;
                     }
                 }
