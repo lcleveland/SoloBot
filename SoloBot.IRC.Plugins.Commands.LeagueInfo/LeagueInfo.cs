@@ -9,7 +9,7 @@
     using SoloBot.Plugins.Core.Models;
     using System.ComponentModel.Composition;
     using System.Linq;
-    using System.Threading;
+    using System.Threading.Tasks;
 
     /// <summary>
     /// Plugins that displays some basic League of Legends information.
@@ -42,10 +42,7 @@
         /// <param name="command">The command to check.</param>
         public override void ReceiveRawCommand(IIRCPlugin sender, IRCEventArgs command)
         {
-            new Thread(delegate() // Handle messages in a different thread so we dont block the incoming messages.
-                {
-                    this.HandleCommand(sender, command);
-                }).Start();
+            Task.Factory.StartNew(() => this.HandleCommand(sender, command)); // Handle messages in a different thread so we dont block the incoming messages.
         }
 
         /// <summary>
@@ -109,7 +106,7 @@
                 }
                 else if (item.StartsWith("?" + this.Command))
                 {
-                    sender.SendCommand("privmsg " + command.Channel + " :!li <username>: " + this.Description);
+                    sender.SendCommand("privmsg " + command.Channel + " :Command Help: !li <username>: " + this.Description);
                 }
             }
         }
