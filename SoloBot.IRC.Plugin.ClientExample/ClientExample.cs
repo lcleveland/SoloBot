@@ -7,6 +7,7 @@
     using SoloBot.Plugins.Core.Models;
     using System;
     using System.ComponentModel.Composition;
+    using System.Threading;
 
     /// <summary>
     /// Example plugin for an IRC client.
@@ -60,7 +61,7 @@
             try
             {
                 this.client.Login("S0L0B0T", "S0L0B0T", 3, "S0L0B0T", Properties.Settings.Default.AuthKey);
-                this.client.Listen();
+                new Thread(new ThreadStart(this.client.Listen)).Start(); // Run the client listen loop on different thread so it doesn't block the main thread.
             }
             catch (ConnectionException ce)
             {
