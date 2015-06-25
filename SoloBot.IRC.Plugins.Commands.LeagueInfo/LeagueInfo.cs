@@ -80,7 +80,7 @@
                 }
                 else if (item.StartsWith("?" + this.Command))
                 {
-                    sender.SendCommand("privmsg " + command.Channel + " :" + this.Description);
+                    sender.SendCommand("privmsg " + command.Channel + " :!li <username>: " + this.Description);
                 }
             }
         }
