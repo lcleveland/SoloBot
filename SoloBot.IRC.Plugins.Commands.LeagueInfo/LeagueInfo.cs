@@ -78,6 +78,10 @@
                         return;
                     }
                 }
+                else if (item.StartsWith("?" + this.Command))
+                {
+                    sender.SendCommand("privmsg " + command.Channel + " :" + this.Description);
+                }
             }
         }
 
