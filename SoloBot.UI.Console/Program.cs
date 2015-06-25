@@ -31,7 +31,6 @@
             }
 
             Console.WriteLine();
-            //new Thread(new ThreadStart(client.Start)).Start();
             client.Start();
             while (true)
             {
