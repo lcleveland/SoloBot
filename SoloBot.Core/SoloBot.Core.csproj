@@ -40,7 +40,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Abstract\IPlugin.cs" />
-    <Compile Include="Abstract\IPluginManager.cs" />
+    <Compile Include="Abstract\IPluginHandler.cs" />
     <Compile Include="Models\IRCEventArgs.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

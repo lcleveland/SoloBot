@@ -11,7 +11,7 @@
     /// <summary>
     /// Class that handles loading the logger plugins.
     /// </summary>
-    public class PluginHandler : IPluginManager
+    public class PluginHandler : IPluginHandler
     {
         /// <summary>
         /// Catalog used to load plugins.

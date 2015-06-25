@@ -12,7 +12,7 @@
     /// <summary>
     /// Manages the IRC client plugins.
     /// </summary>
-    public class PluginHandler : IPluginManager
+    public class PluginHandler : IPluginHandler
     {
         /// <summary>
         /// Catalog used to load plugins.

@@ -5,7 +5,7 @@
     /// <summary>
     /// Defines what a plugin manager consists of.
     /// </summary>
-    public interface IPluginManager : IDisposable
+    public interface IPluginHandler : IDisposable
     {
         /// <summary>
         /// Loads the plugins.
