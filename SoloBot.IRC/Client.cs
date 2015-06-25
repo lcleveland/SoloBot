@@ -4,6 +4,7 @@
     using SoloBot.IRC.Command;
     using SoloBot.IRC.Interface;
     using System;
+    using System.Collections.Generic;
 
     /// <summary>
     /// Instantiates a new IRC client using plugins.
@@ -56,12 +57,41 @@
         }
 
         /// <summary>
-        /// Gets the name, description, and version of the loaded plugins.
+        /// Gets the name, description, and version of all plugins loaded by the client.
         /// </summary>
         /// <returns>String array containing plugin information.</returns>
         public string[][] GetAllPluginInfo()
         {
+            List<string[]> pluginInfo = new List<string[]>();
+            foreach (var item in this.pluginHandler.GetAllPluginInfo())
+            {
+                pluginInfo.Add(item);
+            }
+
+            foreach (var item in singletonCommands.GetAllPluginInfo())
+            {
+                pluginInfo.Add(item);
+            }
+
+            return pluginInfo.ToArray();
+        }
+
+        /// <summary>
+        /// Gets the information for all loaded IRC client plugins.
+        /// </summary>
+        /// <returns>String array containing plugin information.</returns>
+        public string[][] GetIRCClientPluginInfo()
+        {
             return this.pluginHandler.GetAllPluginInfo();
+        }
+
+        /// <summary>
+        /// Gets the information for all loaded IRC command plugins.
+        /// </summary>
+        /// <returns>String array containing plugin information.</returns>
+        public string[][] GetCommandPluginInfo()
+        {
+            return singletonCommands.GetAllPluginInfo();
         }
 
         /// <summary>
