@@ -48,10 +48,10 @@
                 IrcMessage.TryParse(e.Message, out message);
                 Dispatcher.Invoke((Action)delegate
                 {
-                    this.RawScreen.Text += e.Message + "\n";
+                    this.RawScreen.Text += e.Message + "\n\n";
                     if (!message.IsPrefixServer && message.Params.Count >= 2)
                     {
-                        this.ParseScreen.Text += message.Prefix.Substring(0, message.Prefix.IndexOf('!')) + ": " + message.Params[1] + "\n";
+                        this.ParseScreen.Text += message.Prefix.Substring(0, message.Prefix.IndexOf('!')) + ": " + message.Params[1] + "\n\n";
                     }
                     this.RawScrollViewer.ScrollToBottom();
                     this.ParseScrollViewer.ScrollToBottom();
