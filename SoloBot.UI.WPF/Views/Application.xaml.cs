@@ -48,11 +48,17 @@
                 IrcMessage.TryParse(e.Message, out message);
                 Dispatcher.Invoke((Action)delegate
                 {
-                    this.MainScreen.Text += e.Message + "\n";
-                    this.MainScrollViewer.ScrollToBottom();
+                    this.RawScreen.Text += e.Message + "\n";
+                    if (!message.IsPrefixServer && message.Params.Count >= 2)
+                    {
+                        this.ParseScreen.Text += message.Prefix.Substring(0, message.Prefix.IndexOf('!')) + ": " + message.Params[1] + "\n";
+                    }
+                    this.RawScrollViewer.ScrollToBottom();
+                    this.ParseScrollViewer.ScrollToBottom();
                     if (this.chatCount >= 1000)
                     {
-                        this.MainScreen.Text = string.Empty;
+                        this.RawScreen.Text = string.Empty;
+                        this.ParseScreen.Text = string.Empty;
                         this.chatCount = 0;
                     }
                 });
