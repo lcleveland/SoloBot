@@ -8,6 +8,7 @@
     using System.ComponentModel.Composition;
     using System.ComponentModel.Composition.Hosting;
     using System.Configuration;
+    using System.Threading.Tasks;
 
     /// <summary>
     /// Manages the IRC client plugins.
@@ -118,7 +119,7 @@
         {
             foreach (IIRCPlugin plugin in this.PluginList)
             {
-                plugin.SendCommand(command);
+                Task.Factory.StartNew(() => plugin.SendCommand(command)); // Send through seperate thread to eliminate blocking from plugins and to speed up responses.
             }
         }
 
