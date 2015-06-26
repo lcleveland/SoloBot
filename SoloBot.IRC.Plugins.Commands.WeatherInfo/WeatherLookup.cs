@@ -71,7 +71,7 @@
                         var weather = this.weatherService.GetCurrentWeather(city, string.Empty, country);
                         sender.SendCommand("privmsg " + command.Channel +
                             " :Current weather for " + weather.CityName + "," + country.ToUpper() +
-                            ": Temperature: " + string.Format("{0:0.00}", Math.Round((weather.CurrentCondition.Temperature * (9.0 / 5.0)) + 32.0)) +
+                            ": Temperature: " + string.Format("{0}", Math.Round((weather.CurrentCondition.Temperature * (9.0 / 5.0)) + 32.0)) +
                             " Humidity: " + string.Format("{0}", Math.Round(weather.CurrentCondition.Humidity)));
                     }
                     catch (Exception)
