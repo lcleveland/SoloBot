@@ -47,6 +47,7 @@
         {
             this.client.Encoding = System.Text.Encoding.UTF8;
             this.client.SendDelay = 200;
+            this.client.AutoReconnect = true;
             // this.client.ActiveChannelSyncing = true;
             this.client.OnRawMessage += this.Client_OnRawMessage;
             try
