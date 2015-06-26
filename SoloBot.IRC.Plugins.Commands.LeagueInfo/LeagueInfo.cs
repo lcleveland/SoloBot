@@ -12,7 +12,7 @@
     using System.Threading.Tasks;
 
     /// <summary>
-    /// Plugins that displays some basic League of Legends information.
+    /// Plugin that displays some basic League of Legends information.
     /// </summary>
     [Export(typeof(IIRCCommand))]
     public class LeagueInfo : IRCCommandPluginBase
