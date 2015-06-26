@@ -67,12 +67,25 @@
                     {
                         string[] location = item.Substring(item.IndexOf(' ') + 1).Split(',');
                         string city = location[0];
-                        string country = location[1];
-                        var weather = this.weatherService.GetCurrentWeather(city, string.Empty, country);
+                        string province = string.Empty;
+                        string country = string.Empty;
+                        if (location.Length == 2)
+                        {
+                            country = location[1];
+                        }
+                        else
+                        {
+                            province = location[1];
+                            country = location[2];
+                        }
+
+                        var weather = this.weatherService.GetCurrentWeather(city, province, country);
                         sender.SendCommand("privmsg " + command.Channel +
                             " :Current weather for " + weather.CityName + "," + country.ToUpper() +
                             ": Temperature: " + string.Format("{0}", Math.Round((weather.CurrentCondition.Temperature * (9.0 / 5.0)) + 32.0)) +
-                            " Humidity: " + string.Format("{0}", Math.Round(weather.CurrentCondition.Humidity)));
+                            " Humidity: " + string.Format("{0}", Math.Round(weather.CurrentCondition.Humidity)) +
+                            " Latitude: " + weather.Coordinate.Latitude +
+                            " Longitude: " + weather.Coordinate.Longitude);
                     }
                     catch (Exception)
                     {
@@ -82,7 +95,7 @@
                 }
                 else if (item.StartsWith("?" + this.Command))
                 {
-                    sender.SendCommand("privmsg " + command.Channel + " :Command Help: !wl <city>,<country>: " + this.Description);
+                    sender.SendCommand("privmsg " + command.Channel + " :Command Help: !wl <city>,<state | province>,<country>: " + this.Description);
                 }
             }
         }

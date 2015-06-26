@@ -13,6 +13,7 @@
     public partial class Application : Window
     {
         private Client client;
+        private int chatCount = 0;
 
         public Application()
         {
@@ -49,7 +50,14 @@
                 {
                     this.MainScreen.Text += e.Message + "\n";
                     this.MainScrollViewer.ScrollToBottom();
+                    if (this.chatCount >= 1000)
+                    {
+                        this.MainScreen.Text = string.Empty;
+                        this.chatCount = 0;
+                    }
                 });
+
+                this.chatCount++;
             }
             catch (Exception)
             {
