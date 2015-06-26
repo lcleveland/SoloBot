@@ -4,14 +4,13 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{A4EAA213-F180-49F3-8069-65D7446BEEDE}</ProjectGuid>
+    <ProjectGuid>{33E17197-8646-4C84-87CE-2FD4D20A932E}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>SoloBot.IRC.Plugin.ClientExample</RootNamespace>
-    <AssemblyName>SoloBot.IRC.Plugin.ClientExample</AssemblyName>
+    <RootNamespace>SoloBot.IRC.Plugins.Commands.WeatherInfo</RootNamespace>
+    <AssemblyName>SoloBot.IRC.Plugins.Commands.WeatherInfo</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -31,16 +30,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="log4net, Version=1.2.10.0, Culture=neutral, PublicKeyToken=1b44e1d426115821, processorArchitecture=MSIL">
-      <HintPath>..\packages\log4net.1.2.10\lib\2.0\log4net.dll</HintPath>
+    <Reference Include="ByteBlocks.LocationServices, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\WeatherByte.1.0.0\lib\net45\ByteBlocks.LocationServices.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Meebey.SmartIrc4net, Version=0.5.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\smartirc4net-2015.0.5.9\lib\net40\Meebey.SmartIrc4net.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="StarkSoftProxy, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\smartirc4net-2015.0.5.9\lib\net40\StarkSoftProxy.dll</HintPath>
+    <Reference Include="IrcMessageSharp, Version=0.6.0.0, Culture=neutral, PublicKeyToken=30b0acd94db1a836, processorArchitecture=MSIL">
+      <HintPath>..\packages\IrcMessageSharp.0.6.0\lib\net45\IrcMessageSharp.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
@@ -53,26 +48,26 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ClientExample.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
+    <Compile Include="WeatherLookup.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SoloBot.Core\SoloBot.Core.csproj">
       <Project>{82de8320-ac2d-4a6f-bd0c-b6b2e5d52e32}</Project>
       <Name>SoloBot.Core</Name>
     </ProjectReference>
+    <ProjectReference Include="..\SoloBot.IRC.Command.Interface\SoloBot.IRC.Command.Interface.csproj">
+      <Project>{f5d621ee-06cf-448d-9947-0099f0beb2db}</Project>
+      <Name>SoloBot.IRC.Command.Interface</Name>
+    </ProjectReference>
     <ProjectReference Include="..\SoloBot.IRC.Interface\SoloBot.IRC.Interface.csproj">
       <Project>{bd3195bb-c986-4e39-a69d-0d61f520d480}</Project>
       <Name>SoloBot.IRC.Interface</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\SoloBot.Log\SoloBot.Log.csproj">
-      <Project>{66f6493d-8cea-43d5-81f6-25e6aa54a222}</Project>
-      <Name>SoloBot.Log</Name>
     </ProjectReference>
     <ProjectReference Include="..\SoloBot.Plugins.Core\SoloBot.Plugins.Core.csproj">
       <Project>{f473f47c-f922-42b1-87f0-854d692bdb12}</Project>
@@ -89,7 +84,7 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>xcopy "$(TargetDir)*.*" "$(SolutionDir)SoloBot.UI.Console\bin\Debug\Plugins\IRC" /Y</PostBuildEvent>
+    <PostBuildEvent>xcopy "$(TargetDir)*.*" "$(SolutionDir)SoloBot.UI.Console\bin\Debug\Plugins\IRC\Commands\" /Y</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
