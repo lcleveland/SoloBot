@@ -14,6 +14,12 @@
                 <TextBlock Margin="10" Background="Black" Foreground="White" TextWrapping="Wrap" x:Name="RawScreen" Padding="5"/>
             </ScrollViewer>
         </Border>
-        <TextBox Margin="10" Background="Black" Foreground="White" BorderBrush="LightSkyBlue" x:Name="MainInput" />
+        <TextBox Margin="10" Background="Black" Foreground="White" BorderBrush="LightSkyBlue" x:Name="MainInput"/>
+        <Border BorderBrush="LightSkyBlue" BorderThickness="1.5" Margin="10">
+            <StackPanel Orientation="Horizontal">
+                <Label Content="Messages Received:" Foreground="White" Width="125"/>
+                <Label Content="{Binding Path=MessagesReceived}" Foreground="White" Width="100"/>
+            </StackPanel>
+        </Border>
     </StackPanel>
 </Window>

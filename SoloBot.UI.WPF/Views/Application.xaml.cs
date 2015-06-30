@@ -3,6 +3,7 @@
     using IrcMessageSharp;
     using SoloBot.IRC;
     using System;
+    using System.ComponentModel;
     using System.Threading.Tasks;
     using System.Windows;
     using System.Windows.Input;
@@ -10,13 +11,29 @@
     /// <summary>
     /// Interaction logic for Application.XAML
     /// </summary>
-    public partial class Application : Window
+    public partial class Application : Window, INotifyPropertyChanged
     {
         private Client client;
         private int chatCount = 0;
+        private int messagesReceived = 0;
+
+        public int MessagesReceived
+        {
+            get
+            {
+                return this.messagesReceived;
+            }
+
+            set
+            {
+                this.messagesReceived = value;
+                this.OnPropertyChanged("MessagesReceived");
+            }
+        }
 
         public Application()
         {
+            this.DataContext = this;
             this.client = Client.GetClient();
             this.client.RawMessageReceived += this.Client_RawMessageReceived;
             this.Closing += this.Application_Closing;
@@ -43,6 +60,7 @@
         private void Client_RawMessageReceived(object sender, Core.Models.IRCEventArgs e)
         {
             IrcMessage message;
+            this.MessagesReceived++;
             try
             {
                 IrcMessage.TryParse(e.Message, out message);
@@ -55,7 +73,7 @@
                     }
                     this.RawScrollViewer.ScrollToBottom();
                     this.ParseScrollViewer.ScrollToBottom();
-                    if (this.chatCount >= 1000)
+                    if (this.chatCount >= 250)
                     {
                         this.RawScreen.Text = string.Empty;
                         this.ParseScreen.Text = string.Empty;
@@ -68,6 +86,16 @@
             catch (Exception)
             {
                 return;
+            }
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        public void OnPropertyChanged(string propertyName)
+        {
+            if (PropertyChanged != null)
+            {
+                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
             }
         }
     }
