@@ -6,6 +6,7 @@
     using SoloBot.Log;
     using SoloBot.Plugins.Core.Models;
     using System;
+    using System.Collections.Generic;
     using System.ComponentModel.Composition;
     using System.Threading;
     using System.Threading.Tasks;
@@ -26,6 +27,8 @@
         /// </summary>
         private SoloBotLogger logger;
 
+        private List<string> channels;
+
         /// <summary>
         /// Initializes the plugin.
         /// This is where we'll put the plugin details and load some objects.
@@ -36,6 +39,7 @@
             this.Description = "An example IRC client plugin.";
             this.Version = "0.01";
 
+            this.channels = new List<string>();
             this.client = new IrcClient();
             this.logger = SoloBotLogger.GetLogger();
         }
@@ -47,11 +51,14 @@
         {
             this.client.Encoding = System.Text.Encoding.UTF8;
             this.client.SendDelay = 200;
+            this.client.PingTimeout = 60;
             this.client.AutoReconnect = true;
             this.client.AutoRelogin = true;
             this.client.AutoRetry = true;
+            this.client.AutoRejoin = true;
             this.client.ActiveChannelSyncing = true;
             this.client.OnRawMessage += this.Client_OnRawMessage;
+            this.client.OnConnected += Client_OnConnected;
             try
             {
                 this.client.Connect("irc.twitch.tv", 6667);
@@ -77,6 +84,11 @@
                 this.logger.Log(e.ToString());
                 throw new Exception();
             }
+        }
+
+        private void Client_OnConnected(object sender, EventArgs e)
+        {
+            this.SendCommand("CAP REQ :twitch.tv/membership");
         }
 
         /// <summary>

@@ -67,7 +67,7 @@
                 Dispatcher.Invoke((Action)delegate
                 {
                     this.RawScreen.Text += e.Message + "\n\n";
-                    if (!message.IsPrefixServer && message.Params.Count >= 2)
+                    if (!message.IsPrefixServer && message.Params.Count == 2)
                     {
                         this.ParseScreen.Text += message.Prefix.Substring(0, message.Prefix.IndexOf('!')) + ": " + message.Params[1] + "\n\n";
                     }
