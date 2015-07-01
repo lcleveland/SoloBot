@@ -51,7 +51,6 @@
         {
             this.client.Encoding = System.Text.Encoding.UTF8;
             this.client.SendDelay = 200;
-            this.client.PingTimeout = 60;
             this.client.AutoReconnect = true;
             this.client.AutoRelogin = true;
             this.client.AutoRetry = true;
