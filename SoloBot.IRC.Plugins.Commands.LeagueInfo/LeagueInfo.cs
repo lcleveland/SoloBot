@@ -7,6 +7,7 @@
     using SoloBot.IRC.Command.Interface;
     using SoloBot.IRC.Interface;
     using SoloBot.Plugins.Core.Models;
+    using System;
     using System.ComponentModel.Composition;
     using System.Linq;
     using System.Threading.Tasks;
@@ -67,25 +68,25 @@
         /// <param name="command">The command to check.</param>
         private void HandleCommand(IIRCPlugin sender, IRCEventArgs command)
         {
-            IrcMessage message;
-            if (!IrcMessage.TryParse(command.Message, out message))
+            try
             {
-                return;
-            }
-
-            foreach (var item in message.Params)
-            {
-                if (item.StartsWith(this.Command))
+                IrcMessage message;
+                if (!IrcMessage.TryParse(command.Message, out message))
                 {
-                    string accountName = item.Substring(item.IndexOf(' ') + 1);
-                    try
+                    return;
+                }
+
+                foreach (var item in message.Params)
+                {
+                    if (item.StartsWith(this.Command))
                     {
+                        string accountName = item.Substring(item.IndexOf(' ') + 1);
                         var summoner = this.api.GetSummoner(Region.na, accountName);
                         var statSummaries = summoner.GetStatsSummaries();
                         var stats = statSummaries.FirstOrDefault(stat => stat.PlayerStatSummaryType == PlayerStatsSummaryType.RankedSolo5x5);
                         if (stats == null)
                         {
-                            throw new RiotSharpException();
+                            throw new Exception();
                         }
                         else
                         {
@@ -98,16 +99,16 @@
                                 " Total Hero Kills: " + totKills);
                         }
                     }
-                    catch (RiotSharpException)
+                    else if (item.StartsWith("?" + this.Command))
                     {
-                        sender.SendCommand("privmsg " + command.Channel + " :Invalid Lookup");
-                        return;
+                        sender.SendCommand("privmsg " + command.Channel + " :Command Help: !li <username>: " + this.Description);
                     }
                 }
-                else if (item.StartsWith("?" + this.Command))
-                {
-                    sender.SendCommand("privmsg " + command.Channel + " :Command Help: !li <username>: " + this.Description);
-                }
+            }
+            catch (Exception)
+            {
+                sender.SendCommand("privmsg " + command.Channel + " :Invalid Lookup");
+                return;
             }
         }
     }
