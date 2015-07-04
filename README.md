@@ -16,3 +16,4 @@ Core functionality is mostly complete, still refactoring the codebase and optimi
 # Planned
 - Unit tests
 - Tutorials
+- Granular control of plugins

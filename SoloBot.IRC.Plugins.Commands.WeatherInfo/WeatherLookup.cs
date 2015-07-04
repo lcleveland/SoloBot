@@ -10,11 +10,20 @@
     using System.ComponentModel.Composition;
     using System.Threading.Tasks;
 
+    /// <summary>
+    /// Plugin that retrieves the weather for a city.
+    /// </summary>
     [Export(typeof(IIRCCommand))]
     public class WeatherLookup : IRCCommandPluginBase
     {
+        /// <summary>
+        /// The weather API wrapper service.
+        /// </summary>
         private WeatherService weatherService;
 
+        /// <summary>
+        /// Initializes the plugin.
+        /// </summary>
         public override void Initialize()
         {
             this.Name = "Weather Lookup";
@@ -24,14 +33,24 @@
 
             WeatherServiceConfiguration config = new WeatherServiceConfiguration();
             config.AppKey = Properties.Settings.Default.APIKey;
-            weatherService = new WeatherService(config);
+            this.weatherService = new WeatherService(config);
         }
 
+        /// <summary>
+        /// Receives the command from the plugin handler.
+        /// </summary>
+        /// <param name="sender">IRC client that sent the command.</param>
+        /// <param name="command">IRC command.</param>
         public override void ReceiveRawCommand(Interface.IIRCPlugin sender, Core.Models.IRCEventArgs command)
         {
             Task.Factory.StartNew(() => this.HanldeCommand(sender, command));
         }
 
+        /// <summary>
+        /// Handles the command asynchronously
+        /// </summary>
+        /// <param name="sender">IRC client that sent the command.</param>
+        /// <param name="command">IRC command.</param>
         private void HanldeCommand(IIRCPlugin sender, IRCEventArgs command)
         {
             IrcMessage message;
@@ -48,9 +67,25 @@
                     {
                         string[] location = item.Substring(item.IndexOf(' ') + 1).Split(',');
                         string city = location[0];
-                        string country = location[1];
-                        var weather = weatherService.GetCurrentWeather(city, "", country);
-                        sender.SendCommand("privmsg " + command.Channel + " :Current weather for " + weather.CityName + "," + country.ToUpper() + ": Temperature: " + String.Format("{0:0.00}", ((weather.CurrentCondition.Temperature * (9.0 / 5)) + 32.0)) + "F Humidity: " + weather.CurrentCondition.Humidity);
+                        string province = string.Empty;
+                        string country = string.Empty;
+                        if (location.Length == 2)
+                        {
+                            country = location[1];
+                        }
+                        else
+                        {
+                            province = location[1];
+                            country = location[2];
+                        }
+
+                        var weather = this.weatherService.GetCurrentWeather(city, province, country);
+                        sender.SendCommand("privmsg " + command.Channel +
+                            " :Current weather for " + weather.CityName + "," + country.ToUpper() +
+                            ": Temperature: " + string.Format("{0}", Math.Round((weather.CurrentCondition.Temperature * (9.0 / 5.0)) + 32.0)) +
+                            " Humidity: " + string.Format("{0}", Math.Round(weather.CurrentCondition.Humidity)) +
+                            " Latitude: " + weather.Coordinate.Latitude +
+                            " Longitude: " + weather.Coordinate.Longitude);
                     }
                     catch (Exception)
                     {
@@ -60,7 +95,7 @@
                 }
                 else if (item.StartsWith("?" + this.Command))
                 {
-                    sender.SendCommand("privmsg " + command.Channel + " :Command Help: !wl <city>,<country>: " + this.Description);
+                    sender.SendCommand("privmsg " + command.Channel + " :Command Help: !wl <city>,<state | province>,<country>: " + this.Description);
                 }
             }
         }

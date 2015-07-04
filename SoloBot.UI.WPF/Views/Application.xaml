@@ -1,0 +1,25 @@
+﻿<Window x:Class="SoloBot.UI.WPF.Views.Application"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="SoloBot" Height="Auto" Width="Auto" SizeToContent="WidthAndHeight"
+        ResizeMode="CanMinimize">
+    <StackPanel Background="Black">
+        <Border BorderBrush="LightSkyBlue" Margin="10" BorderThickness="1.5">
+            <ScrollViewer VerticalScrollBarVisibility="Hidden" x:Name="ParseScrollViewer" Height="200" Width="750">
+                <TextBlock Margin="10" Background="Black" Foreground="White" TextWrapping="Wrap" x:Name="ParseScreen" Padding="5"/>
+            </ScrollViewer>
+        </Border>
+        <Border BorderBrush="LightSkyBlue" BorderThickness="1.5" Margin="10">
+            <ScrollViewer x:Name="RawScrollViewer" VerticalScrollBarVisibility="Hidden" Height="150" Width="750">
+                <TextBlock Margin="10" Background="Black" Foreground="White" TextWrapping="Wrap" x:Name="RawScreen" Padding="5"/>
+            </ScrollViewer>
+        </Border>
+        <TextBox Margin="10" Background="Black" Foreground="White" BorderBrush="LightSkyBlue" x:Name="MainInput"/>
+        <Border BorderBrush="LightSkyBlue" BorderThickness="1.5" Margin="10">
+            <StackPanel Orientation="Horizontal">
+                <Label Content="Messages Received:" Foreground="White" Width="125"/>
+                <Label Content="{Binding Path=MessagesReceived}" Foreground="White" Width="100"/>
+            </StackPanel>
+        </Border>
+    </StackPanel>
+</Window>
