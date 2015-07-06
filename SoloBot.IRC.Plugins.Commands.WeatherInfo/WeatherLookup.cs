@@ -81,11 +81,10 @@
 
                         var weather = this.weatherService.GetCurrentWeather(city, province, country);
                         sender.SendCommand("privmsg " + command.Channel +
-                            " :Current weather for " + weather.CityName + "," + country.ToUpper() +
-                            ": Temperature: " + string.Format("{0}", Math.Round((weather.CurrentCondition.Temperature * (9.0 / 5.0)) + 32.0)) +
-                            " Humidity: " + string.Format("{0}", Math.Round(weather.CurrentCondition.Humidity)) +
-                            " Latitude: " + weather.Coordinate.Latitude +
-                            " Longitude: " + weather.Coordinate.Longitude);
+                            " :" + weather.CityName + "," + country.ToUpper() +
+                            " (" + weather.Coordinate.Latitude + ", " + weather.Coordinate.Longitude + "): " +
+                            string.Format("{0}", Math.Round((weather.CurrentCondition.Temperature * (9.0 / 5.0)) + 32.0)) + "°" +
+                            " H: " + string.Format("{0}%", Math.Round(weather.CurrentCondition.Humidity)));
                     }
                     catch (Exception)
                     {
