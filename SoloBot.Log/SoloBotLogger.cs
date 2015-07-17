@@ -1,79 +1,74 @@
-﻿namespace SoloBot.Log
-{
-    using System;
+﻿using System;
 
+namespace SoloBot.Log
+{
     /// <summary>
-    /// Instantiates a new logger using plugins.
+    ///     Instantiates a new logger using plugins.
     /// </summary>
     public class SoloBotLogger : IDisposable
     {
         /// <summary>
-        /// The logger.
+        ///     The logger.
         /// </summary>
-        private static SoloBotLogger singletonLogger;
+        private static SoloBotLogger _singletonLogger;
 
         /// <summary>
-        /// Handles loading the logger plugins.
+        ///     Handles loading the logger plugins.
         /// </summary>
-        private PluginHandler pluginHandler;
+        private PluginHandler _pluginHandler;
 
         /// <summary>
-        /// Prevents a default instance of the <see cref="SoloBotLogger" /> class from being created.
+        ///     Prevents a default instance of the <see cref="SoloBotLogger" /> class from being created.
         /// </summary>
         private SoloBotLogger()
         {
-            this.pluginHandler = new PluginHandler();
-            this.pluginHandler.InitializePlugins();
+            _pluginHandler = new PluginHandler();
+            _pluginHandler.InitializePlugins();
         }
 
         /// <summary>
-        /// Static method used to create a new SoloBotLogger object.
-        /// </summary>
-        /// <returns>SoloBotLogger object.</returns>
-        public static SoloBotLogger GetLogger()
-        {
-            if (singletonLogger == null)
-            {
-                singletonLogger = new SoloBotLogger();
-            }
-
-            return singletonLogger;
-        }
-
-        /// <summary>
-        /// Sends a message to be logged by the logger plugins.
-        /// </summary>
-        /// <param name="message">The message to log.</param>
-        public void Log(string message)
-        {
-            this.pluginHandler.Log(message);
-        }
-
-        /// <summary>
-        /// Disposes of the SoloBotLogger object.
+        ///     Disposes of the SoloBotLogger object.
         /// </summary>
         public void Dispose()
         {
-            this.Dispose(true);
+            Dispose(true);
             GC.SuppressFinalize(this);
         }
 
         /// <summary>
-        /// Disposes of the SoloBotLogger object.
+        ///     Static method used to create a new SoloBotLogger object.
+        /// </summary>
+        /// <returns>SoloBotLogger object.</returns>
+        public static SoloBotLogger GetLogger()
+        {
+            return _singletonLogger ?? (_singletonLogger = new SoloBotLogger());
+        }
+
+        /// <summary>
+        ///     Sends a message to be logged by the logger plugins.
+        /// </summary>
+        /// <param name="message">The message to log.</param>
+        public void Log(string message)
+        {
+            _pluginHandler.Log(message);
+        }
+
+        /// <summary>
+        ///     Disposes of the SoloBotLogger object.
         /// </summary>
         /// <param name="disposing">Is disposing.</param>
         protected virtual void Dispose(bool disposing)
         {
-            if (this.pluginHandler != null)
+            if (_pluginHandler != null)
             {
-                this.pluginHandler.Dispose();
-                this.pluginHandler = null;
+                _pluginHandler.Dispose();
+                _pluginHandler = null;
             }
 
-            if (singletonLogger != null)
+            if (_singletonLogger != null)
             {
-                singletonLogger.Dispose();
-                singletonLogger = null;
+                _singletonLogger.Dispose();
+                _singletonLogger = null;
             }
         }
     }

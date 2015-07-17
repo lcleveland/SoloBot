@@ -1,57 +1,57 @@
-﻿namespace SoloBot.IRC.Plugins.Commands.WeatherInfo
-{
-    using ByteBlocks.LocationServices;
-    using IrcMessageSharp;
-    using SoloBot.Core.Models;
-    using SoloBot.IRC.Command.Interface;
-    using SoloBot.IRC.Interface;
-    using SoloBot.Plugins.Core.Models;
-    using System;
-    using System.ComponentModel.Composition;
-    using System.Threading.Tasks;
+﻿using System;
+using System.ComponentModel.Composition;
+using System.Threading.Tasks;
+using ByteBlocks.LocationServices;
+using IrcMessageSharp;
+using SoloBot.Core.Models;
+using SoloBot.IRC.Command.Interface;
+using SoloBot.IRC.Interface;
+using SoloBot.IRC.Plugins.Commands.WeatherInfo.Properties;
+using SoloBot.Plugins.Core.Models;
 
+namespace SoloBot.IRC.Plugins.Commands.WeatherInfo
+{
     /// <summary>
-    /// Plugin that retrieves the weather for a city.
+    ///     Plugin that retrieves the weather for a city.
     /// </summary>
-    [Export(typeof(IIRCCommand))]
-    public class WeatherLookup : IRCCommandPluginBase
+    [Export(typeof (IIrcCommand))]
+    public class WeatherLookup : IrcCommandPluginBase
     {
         /// <summary>
-        /// The weather API wrapper service.
+        ///     The weather API wrapper service.
         /// </summary>
-        private WeatherService weatherService;
+        private WeatherService _weatherService;
 
         /// <summary>
-        /// Initializes the plugin.
+        ///     Initializes the plugin.
         /// </summary>
         public override void Initialize()
         {
-            this.Name = "Weather Lookup";
-            this.Description = "Finds the current weather for designated city.";
-            this.Version = "0.01";
-            this.Command = "!wl";
+            Name = "Weather Lookup";
+            Description = "Finds the current weather for designated city.";
+            Version = "0.01";
+            Command = "!wl";
 
-            WeatherServiceConfiguration config = new WeatherServiceConfiguration();
-            config.AppKey = Properties.Settings.Default.APIKey;
-            this.weatherService = new WeatherService(config);
+            var config = new WeatherServiceConfiguration {AppKey = Settings.Default.APIKey};
+            _weatherService = new WeatherService(config);
         }
 
         /// <summary>
-        /// Receives the command from the plugin handler.
+        ///     Receives the command from the plugin handler.
         /// </summary>
         /// <param name="sender">IRC client that sent the command.</param>
         /// <param name="command">IRC command.</param>
-        public override void ReceiveRawCommand(Interface.IIRCPlugin sender, Core.Models.IRCEventArgs command)
+        public override void ReceiveRawCommand(IIrcPlugin sender, IrcEventArgs command)
         {
-            Task.Factory.StartNew(() => this.HanldeCommand(sender, command));
+            Task.Factory.StartNew(() => HanldeCommand(sender, command));
         }
 
         /// <summary>
-        /// Handles the command asynchronously
+        ///     Handles the command asynchronously
         /// </summary>
         /// <param name="sender">IRC client that sent the command.</param>
         /// <param name="command">IRC command.</param>
-        private void HanldeCommand(IIRCPlugin sender, IRCEventArgs command)
+        private void HanldeCommand(IIrcPlugin sender, IrcEventArgs command)
         {
             IrcMessage message;
             if (!IrcMessage.TryParse(command.Message, out message))
@@ -61,14 +61,14 @@
 
             foreach (var item in message.Params)
             {
-                if (item.StartsWith(this.Command))
+                if (item.StartsWith(Command))
                 {
                     try
                     {
-                        string[] location = item.Substring(item.IndexOf(' ') + 1).Split(',');
-                        string city = location[0];
-                        string province = string.Empty;
-                        string country = string.Empty;
+                        var location = item.Substring(item.IndexOf(' ') + 1).Split(',');
+                        var city = location[0];
+                        var province = string.Empty;
+                        var country = string.Empty;
                         if (location.Length == 2)
                         {
                             country = location[1];
@@ -79,12 +79,15 @@
                             country = location[2];
                         }
 
-                        var weather = this.weatherService.GetCurrentWeather(city, province, country);
+                        var weather = _weatherService.GetCurrentWeather(city, province, country);
                         sender.SendCommand("privmsg " + command.Channel +
-                            " :" + weather.CityName + "," + country.ToUpper() +
-                            " (" + weather.Coordinate.Latitude + ", " + weather.Coordinate.Longitude + "): " +
-                            string.Format("{0}", Math.Round((weather.CurrentCondition.Temperature * (9.0 / 5.0)) + 32.0)) + "°" +
-                            " H: " + string.Format("{0}%", Math.Round(weather.CurrentCondition.Humidity)));
+                                           " :" + weather.CityName + "," + country.ToUpper() +
+                                           " (" + weather.Coordinate.Latitude + ", " + weather.Coordinate.Longitude +
+                                           "): " +
+                                           string.Format("{0}",
+                                               Math.Round((weather.CurrentCondition.Temperature*(9.0/5.0)) + 32.0)) +
+                                           "°" +
+                                           " H: " + string.Format("{0}%", Math.Round(weather.CurrentCondition.Humidity)));
                     }
                     catch (Exception)
                     {
@@ -92,9 +95,10 @@
                         return;
                     }
                 }
-                else if (item.StartsWith("?" + this.Command))
+                else if (item.StartsWith("?" + Command))
                 {
-                    sender.SendCommand("privmsg " + command.Channel + " :Command Help: !wl <city>,<state | province>,<country>: " + this.Description);
+                    sender.SendCommand("privmsg " + command.Channel +
+                                       " :Command Help: !wl <city>,<state | province>,<country>: " + Description);
                 }
             }
         }

@@ -1,93 +1,88 @@
-﻿namespace SoloBot.IRC.Command
-{
-    using SoloBot.Core.Models;
-    using SoloBot.IRC.Interface;
-    using System;
+﻿using System;
+using SoloBot.Core.Models;
+using SoloBot.IRC.Interface;
 
+namespace SoloBot.IRC.Command
+{
     /// <summary>
-    /// Instantiates a new IRC client command control using plugins.
+    ///     Instantiates a new IRC client command control using plugins.
     /// </summary>
-    public class IRCCommands : IDisposable
+    public class IrcCommands : IDisposable
     {
         /// <summary>
-        /// The plugin commands.
+        ///     The plugin commands.
         /// </summary>
-        private static IRCCommands singletonCommands;
+        private static IrcCommands _singletonCommands;
 
         /// <summary>
-        /// Handles loading the IRC client plugins.
+        ///     Handles loading the IRC client plugins.
         /// </summary>
-        private PluginHandler pluginHandler;
+        private PluginHandler _pluginHandler;
 
         /// <summary>
-        /// Prevents a default instance of the <see cref="IRCCommands" /> class from being created.
+        ///     Prevents a default instance of the <see cref="IrcCommands" /> class from being created.
         /// </summary>
-        private IRCCommands()
+        private IrcCommands()
         {
-            this.pluginHandler = new PluginHandler();
-            this.pluginHandler.InitializePlugins();
+            _pluginHandler = new PluginHandler();
+            _pluginHandler.InitializePlugins();
         }
 
         /// <summary>
-        /// Static method to create a new IRCCommands object.
+        ///     Disposes of the IRCCommands object.
+        /// </summary>
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+            _pluginHandler = null;
+            _singletonCommands = null;
+        }
+
+        /// <summary>
+        ///     Static method to create a new IRCCommands object.
         /// </summary>
         /// <returns>The IRCCommands object.</returns>
-        public static IRCCommands GetCommands()
+        public static IrcCommands GetCommands()
         {
-            if (singletonCommands == null)
-            {
-                singletonCommands = new IRCCommands();
-            }
-
-            return singletonCommands;
+            return _singletonCommands ?? (_singletonCommands = new IrcCommands());
         }
 
         /// <summary>
-        /// Distributes the commands to the command plugins.
+        ///     Distributes the commands to the command plugins.
         /// </summary>
         /// <param name="sender">The IRC client sending the command.</param>
         /// <param name="command">The raw IRC command.</param>
-        public void SendCommand(IIRCPlugin sender, IRCEventArgs command)
+        public void SendCommand(IIrcPlugin sender, IrcEventArgs command)
         {
-            this.pluginHandler.SendCommand(sender, command);
+            _pluginHandler.SendCommand(sender, command);
         }
 
         /// <summary>
-        /// Gets the name, description, and version of the loaded plugins.
+        ///     Gets the name, description, and version of the loaded plugins.
         /// </summary>
         /// <returns>String array containing plugin information.</returns>
         public string[][] GetAllPluginInfo()
         {
-            return this.pluginHandler.GetAllPluginInfo();
+            return _pluginHandler.GetAllPluginInfo();
         }
 
         /// <summary>
-        /// Disposes of the IRCCommands object.
-        /// </summary>
-        public void Dispose()
-        {
-            this.Dispose(true);
-            GC.SuppressFinalize(this);
-            this.pluginHandler = null;
-            singletonCommands = null;
-        }
-
-        /// <summary>
-        /// Disposes of the IRCCommands object.
+        ///     Disposes of the IRCCommands object.
         /// </summary>
         /// <param name="disposing">Is disposing.</param>
         protected virtual void Dispose(bool disposing)
         {
-            if (this.pluginHandler != null)
+            if (_pluginHandler != null)
             {
-                this.pluginHandler.Dispose();
-                this.pluginHandler = null;
+                _pluginHandler.Dispose();
+                _pluginHandler = null;
             }
 
-            if (singletonCommands != null) 
+            if (_singletonCommands != null)
             {
-                singletonCommands.Dispose();
-                singletonCommands = null;
+                _singletonCommands.Dispose();
+                _singletonCommands = null;
             }
         }
     }

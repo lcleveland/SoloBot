@@ -1,129 +1,81 @@
-﻿namespace SoloBot.Plugins.Core.Models
-{
-    using SoloBot.Core.Models;
-    using SoloBot.IRC.Interface;
-    using System;
-    using System.ComponentModel.Composition;
+﻿using System;
+using System.ComponentModel.Composition;
+using SoloBot.Core.Models;
+using SoloBot.IRC.Interface;
 
+namespace SoloBot.Plugins.Core.Models
+{
     /// <summary>
-    /// Serves as the base for creating a new IRC client plugin.
+    ///     Serves as the base for creating a new IRC client plugin.
     /// </summary>
-    [Export(typeof(IIRCPlugin))]
-    public abstract class IRCClientPluginBase : IIRCPlugin
+    [Export(typeof (IIrcPlugin))]
+    public abstract class IrcClientPluginBase : IIrcPlugin
     {
         /// <summary>
-        /// The plugin name.
+        ///     The SoloBot IRC message event.
         /// </summary>
-        private string name;
+        public event EventHandler<IrcEventArgs> RawMessageReceived;
 
         /// <summary>
-        /// The plugin description.
+        ///     Gets or sets the plugin name.
         /// </summary>
-        private string description;
+        public string Name { get; protected set; }
 
         /// <summary>
-        /// The plugin version.
+        ///     Gets or sets the plugin description.
         /// </summary>
-        private string version;
+        public string Description { get; protected set; }
 
         /// <summary>
-        /// The SoloBot IRC message event.
+        ///     Gets or sets the plugin version.
         /// </summary>
-        public event EventHandler<IRCEventArgs> RawMessageReceived;
+        public string Version { get; protected set; }
 
         /// <summary>
-        /// Gets or sets the plugin name.
-        /// </summary>
-        public string Name
-        {
-            get
-            {
-                return this.name;
-            }
-
-            protected set
-            {
-                this.name = value;
-            }
-        }
-
-        /// <summary>
-        /// Gets or sets the plugin description.
-        /// </summary>
-        public string Description
-        {
-            get
-            {
-                return this.description;
-            }
-
-            protected set
-            {
-                this.description = value;
-            }
-        }
-
-        /// <summary>
-        /// Gets or sets the plugin version.
-        /// </summary>
-        public string Version
-        {
-            get
-            {
-                return this.version;
-            }
-
-            protected set
-            {
-                this.version = value;
-            }
-        }
-
-        /// <summary>
-        /// Initializes the plugin.
+        ///     Initializes the plugin.
         /// </summary>
         public abstract void Initialize();
 
         /// <summary>
-        /// Starts the client.
+        ///     Starts the client.
         /// </summary>
         public abstract void Start();
 
         /// <summary>
-        /// Stops the client.
+        ///     Stops the client.
         /// </summary>
         public abstract void Stop();
 
         /// <summary>
-        /// Sends a raw IRC command.
+        ///     Sends a raw IRC command.
         /// </summary>
         /// <param name="command">The command to send.</param>
         public abstract void SendCommand(string command);
 
         /// <summary>
-        /// Pushes a message into the SoloBot message event system.
+        ///     Pushes a message into the SoloBot message event system.
         /// </summary>
         /// <param name="sender">The sender.</param>
         /// <param name="e">SoloBot IRCEventArgs object.</param>
-        public void OnRawMessageReceived(IIRCPlugin sender, IRCEventArgs e)
+        public void OnRawMessageReceived(IIrcPlugin sender, IrcEventArgs e)
         {
-            if (this.RawMessageReceived != null)
+            if (RawMessageReceived != null)
             {
-                this.RawMessageReceived(sender, e);
+                RawMessageReceived(sender, e);
             }
         }
 
         /// <summary>
-        /// Disposes of the plugin.
+        ///     Disposes of the plugin.
         /// </summary>
         public void Dispose()
         {
-            this.Dispose(true);
+            Dispose(true);
             GC.SuppressFinalize(this);
         }
 
         /// <summary>
-        /// Disposes of the plugin.
+        ///     Disposes of the plugin.
         /// </summary>
         /// <param name="disposing">Is disposing.</param>
         protected virtual void Dispose(bool disposing)

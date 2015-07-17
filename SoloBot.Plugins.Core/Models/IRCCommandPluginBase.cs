@@ -1,123 +1,59 @@
-﻿namespace SoloBot.Plugins.Core.Models
-{
-    using SoloBot.Core.Models;
-    using SoloBot.IRC.Command.Interface;
-    using SoloBot.IRC.Interface;
-    using System;
+﻿using System;
+using SoloBot.Core.Models;
+using SoloBot.IRC.Command.Interface;
+using SoloBot.IRC.Interface;
 
+namespace SoloBot.Plugins.Core.Models
+{
     /// <summary>
-    /// Abstract base class for an IRC command plugin.
+    ///     Abstract base class for an IRC command plugin.
     /// </summary>
-    public abstract class IRCCommandPluginBase : IIRCCommand
+    public abstract class IrcCommandPluginBase : IIrcCommand
     {
         /// <summary>
-        /// The command to match.
+        ///     Gets or sets the plugin command.
         /// </summary>
-        private string command;
+        public string Command { get; protected set; }
 
         /// <summary>
-        /// The plugin name.
+        ///     Gets or sets the plugin name.
         /// </summary>
-        private string name;
+        public string Name { get; protected set; }
 
         /// <summary>
-        /// The plugin description.
+        ///     Gets or sets the plugin description.
         /// </summary>
-        private string description;
+        public string Description { get; protected set; }
 
         /// <summary>
-        /// The plugin version.
+        ///     Gets or sets the plugin version.
         /// </summary>
-        private string version;
+        public string Version { get; protected set; }
 
         /// <summary>
-        /// Gets or sets the plugin command.
-        /// </summary>
-        public string Command
-        {
-            get
-            {
-                return this.command;
-            }
-
-            protected set
-            {
-                this.command = value;
-            }
-        }
-
-        /// <summary>
-        /// Gets or sets the plugin name.
-        /// </summary>
-        public string Name
-        {
-            get
-            {
-                return this.name;
-            }
-
-            protected set
-            {
-                this.name = value;
-            }
-        }
-
-        /// <summary>
-        /// Gets or sets the plugin description.
-        /// </summary>
-        public string Description
-        {
-            get
-            {
-                return this.description;
-            }
-
-            protected set
-            {
-                this.description = value;
-            }
-        }
-
-        /// <summary>
-        /// Gets or sets the plugin version.
-        /// </summary>
-        public string Version
-        {
-            get
-            {
-                return this.version;
-            }
-
-            protected set
-            {
-                this.version = value;
-            }
-        }
-
-        /// <summary>
-        /// Used to initialize the plugin.
-        /// This is where the plugin details will be set.
+        ///     Used to initialize the plugin.
+        ///     This is where the plugin details will be set.
         /// </summary>
         public abstract void Initialize();
 
         /// <summary>
-        /// Is called by the plugin handler when a command is received from the IRC client plugins.
+        ///     Is called by the plugin handler when a command is received from the IRC client plugins.
         /// </summary>
         /// <param name="sender">IRC client plugin.</param>
         /// <param name="command">Raw IRC command.</param>
-        public abstract void ReceiveRawCommand(IIRCPlugin sender, IRCEventArgs command);
+        public abstract void ReceiveRawCommand(IIrcPlugin sender, IrcEventArgs command);
 
         /// <summary>
-        /// Disposes of the plugin.
+        ///     Disposes of the plugin.
         /// </summary>
         public void Dispose()
         {
-            this.Dispose(true);
+            Dispose(true);
             GC.SuppressFinalize(this);
         }
 
         /// <summary>
-        /// Disposes of the plugin.
+        ///     Disposes of the plugin.
         /// </summary>
         /// <param name="disposing">Is disposing.</param>
         protected virtual void Dispose(bool disposing)

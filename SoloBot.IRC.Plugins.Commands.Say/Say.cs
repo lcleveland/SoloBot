@@ -1,24 +1,24 @@
-﻿namespace SoloBot.IRC.Plugins.Commands.Say
-{
-    using IrcMessageSharp;
-    using SoloBot.Core.Models;
-    using SoloBot.IRC.Command.Interface;
-    using SoloBot.IRC.Interface;
-    using SoloBot.Plugins.Core.Models;
-    using System.ComponentModel.Composition;
+﻿using System.ComponentModel.Composition;
+using IrcMessageSharp;
+using SoloBot.Core.Models;
+using SoloBot.IRC.Command.Interface;
+using SoloBot.IRC.Interface;
+using SoloBot.Plugins.Core.Models;
 
+namespace SoloBot.IRC.Plugins.Commands.Say
+{
     /// <summary>
-    /// Example command plugin.
+    ///     Example command plugin.
     /// </summary>
-    [Export(typeof(IIRCCommand))]
-    public class Say : IRCCommandPluginBase
+    [Export(typeof (IIrcCommand))]
+    public class Say : IrcCommandPluginBase
     {
         /// <summary>
-        /// Called by the plugin handler when it has an IRC command to handle.
+        ///     Called by the plugin handler when it has an IRC command to handle.
         /// </summary>
         /// <param name="sender">The IRC client plugin that got the message.</param>
         /// <param name="command">The raw IRC message.</param>
-        public override void ReceiveRawCommand(IIRCPlugin sender, IRCEventArgs command)
+        public override void ReceiveRawCommand(IIrcPlugin sender, IrcEventArgs command)
         {
             IrcMessage message;
             if (!IrcMessage.TryParse(command.Message, out message))
@@ -36,14 +36,14 @@
         }
 
         /// <summary>
-        /// Sets up the plugin to run.
+        ///     Sets up the plugin to run.
         /// </summary>
         public override void Initialize()
         {
-            this.Name = "Say Plugin";
-            this.Description = "Plugin that makes the client speak.";
-            this.Version = "0.01";
-            this.Command = "!say";
+            Name = "Say Plugin";
+            Description = "Plugin that makes the client speak.";
+            Version = "0.01";
+            Command = "!say";
         }
     }
 }

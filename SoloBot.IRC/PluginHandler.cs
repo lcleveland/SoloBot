@@ -1,146 +1,141 @@
-﻿namespace SoloBot.IRC
-{
-    using SoloBot.Core.Abstract;
-    using SoloBot.Core.Models;
-    using SoloBot.IRC.Interface;
-    using System;
-    using System.Collections.Generic;
-    using System.ComponentModel.Composition;
-    using System.ComponentModel.Composition.Hosting;
-    using System.Configuration;
-    using System.Threading.Tasks;
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel.Composition;
+using System.ComponentModel.Composition.Hosting;
+using System.Configuration;
+using System.Linq;
+using System.Threading.Tasks;
+using SoloBot.Core.Abstract;
+using SoloBot.Core.Models;
+using SoloBot.IRC.Interface;
 
+namespace SoloBot.IRC
+{
     /// <summary>
-    /// Manages the IRC client plugins.
+    ///     Manages the IRC client plugins.
     /// </summary>
     public class PluginHandler : IPluginHandler
     {
         /// <summary>
-        /// Catalog used to load plugins.
+        ///     Catalog used to load plugins.
         /// </summary>
-        private AggregateCatalog catalog = new AggregateCatalog();
+        private AggregateCatalog _catalog = new AggregateCatalog();
 
         /// <summary>
-        /// Binding point for the plugin message events to be forwarded to the client object.
+        ///     Gets or sets the list of plugins that are loaded.
         /// </summary>
-        public event EventHandler<IRCEventArgs> RawMessageReceived;
+        [ImportMany(typeof (IIrcPlugin))]
+        public List<IIrcPlugin> PluginList { get; set; }
 
         /// <summary>
-        /// Gets or sets the list of plugins that are loaded.
-        /// </summary>
-        [ImportMany(typeof(IIRCPlugin))]
-        public List<IIRCPlugin> PluginList { get; set; }
-
-        /// <summary>
-        /// Initializes the plugins.
+        ///     Initializes the plugins.
         /// </summary>
         public void InitializePlugins()
         {
-            this.PluginList = new List<IIRCPlugin>();
-            this.catalog.Catalogs.Add(new DirectoryCatalog(this.GetConfigurationPath(), "*.dll"));
-            CompositionContainer compositionContainer = new CompositionContainer(this.catalog);
+            PluginList = new List<IIrcPlugin>();
+            _catalog.Catalogs.Add(new DirectoryCatalog(GetConfigurationPath(), "*.dll"));
+            var compositionContainer = new CompositionContainer(_catalog);
             compositionContainer.ComposeParts(this);
-            foreach (IIRCPlugin plugin in this.PluginList)
+            foreach (var plugin in PluginList)
             {
                 plugin.Initialize();
             }
         }
 
         /// <summary>
-        /// Retrieves the path to the plugins.
+        ///     Retrieves the path to the plugins.
         /// </summary>
         /// <returns>The plugin path.</returns>
         public string GetConfigurationPath()
         {
-            Configuration pluginConfig = ConfigurationManager.OpenExeConfiguration(this.GetType().Assembly.Location);
-            AppSettingsSection pluginConfigAppSettings = (AppSettingsSection)pluginConfig.GetSection("appSettings");
+            var pluginConfig = ConfigurationManager.OpenExeConfiguration(GetType().Assembly.Location);
+            var pluginConfigAppSettings = (AppSettingsSection) pluginConfig.GetSection("appSettings");
             return pluginConfigAppSettings.Settings["PluginPath"].Value;
         }
 
         /// <summary>
-        /// Gets the name, description, and version of the loaded plugins.
+        ///     Gets the name, description, and version of the loaded plugins.
         /// </summary>
         /// <returns>String array containing plugin information.</returns>
         public string[][] GetAllPluginInfo()
         {
-            List<string[]> pluginInfo = new List<string[]>();
-            foreach (IIRCPlugin plugin in this.PluginList)
+            return PluginList.Select(plugin => new[]
             {
-                pluginInfo.Add(new string[]
-                {
-                    plugin.Name,
-                    plugin.Description,
-                    plugin.Version
-                });
-            }
-
-            return pluginInfo.ToArray();
+                plugin.Name, plugin.Description, plugin.Version
+            }).ToArray();
         }
 
         /// <summary>
-        /// Disposes of the plugin manager.
+        ///     Disposes of the plugin manager.
         /// </summary>
         public void Dispose()
         {
-            this.Dispose(true);
+            Dispose(true);
             GC.SuppressFinalize(this);
         }
+
+        /// <summary>
+        ///     Binding point for the plugin message events to be forwarded to the client object.
+        /// </summary>
+        public event EventHandler<IrcEventArgs> RawMessageReceived;
 
         #region IRC Client Plugin Methods
 
         /// <summary>
-        /// Starts all IRC client plugins.
+        ///     Starts all IRC client plugins.
         /// </summary>
         public void Start()
         {
-            foreach (IIRCPlugin plugin in this.PluginList)
+            foreach (var plugin in PluginList)
             {
-                plugin.RawMessageReceived += this.RawMessageReceived;
+                plugin.RawMessageReceived += RawMessageReceived;
                 plugin.Start();
             }
         }
 
         /// <summary>
-        /// Stops all IRC client plugins.
+        ///     Stops all IRC client plugins.
         /// </summary>
         public void Stop()
         {
-            foreach (IIRCPlugin plugin in this.PluginList)
+            foreach (var plugin in PluginList)
             {
                 plugin.Stop();
             }
         }
 
         /// <summary>
-        /// Send a command to all IRC client plugins.
+        ///     Send a command to all IRC client plugins.
         /// </summary>
         /// <param name="command">Raw IRC command to send.</param>
         public void SendCommand(string command)
         {
-            foreach (IIRCPlugin plugin in this.PluginList)
+            foreach (var plugin in PluginList)
             {
-                Task.Factory.StartNew(() => plugin.SendCommand(command)); // Send through seperate thread to eliminate blocking from plugins and to speed up responses.
+                var pluginTemp = plugin;
+                Task.Factory.StartNew(() => pluginTemp.SendCommand(command));
+                // Send through seperate thread to eliminate blocking from plugins and to speed up responses.
             }
         }
 
         /// <summary>
-        /// Disposes of the plugin manager
+        ///     Disposes of the plugin manager
         /// </summary>
         /// <param name="disposing">Is disposing.</param>
         protected virtual void Dispose(bool disposing)
         {
             if (disposing)
             {
-                if (this.catalog != null)
+                if (_catalog != null)
                 {
-                    this.catalog.Dispose();
-                    this.catalog = null;
+                    _catalog.Dispose();
+                    _catalog = null;
                 }
 
-                if (this.PluginList != null)
+                if (PluginList != null)
                 {
-                    this.PluginList.Clear();
-                    this.PluginList = null;
+                    PluginList.Clear();
+                    PluginList = null;
                 }
             }
         }

@@ -1,173 +1,160 @@
-﻿namespace SoloBot.IRC
-{
-    using SoloBot.Core.Models;
-    using SoloBot.IRC.Command;
-    using SoloBot.IRC.Interface;
-    using System;
-    using System.Collections.Generic;
+﻿using System;
+using System.Linq;
+using SoloBot.Core.Models;
+using SoloBot.IRC.Command;
+using SoloBot.IRC.Interface;
 
+namespace SoloBot.IRC
+{
     /// <summary>
-    /// Instantiates a new IRC client using plugins.
+    ///     Instantiates a new IRC client using plugins.
     /// </summary>
     public class Client : IDisposable
     {
         /// <summary>
-        /// The plugin client.
+        ///     The plugin client.
         /// </summary>
-        private static Client singletonClient;
+        private static Client _singletonClient;
 
         /// <summary>
-        /// The command plugins.
+        ///     The command plugins.
         /// </summary>
-        private static IRCCommands singletonCommands;
+        private static IrcCommands _singletonCommands;
 
         /// <summary>
-        /// Handles loading the IRC client plugins.
+        ///     Handles loading the IRC client plugins.
         /// </summary>
-        private PluginHandler pluginHandler;
+        private PluginHandler _pluginHandler;
 
         /// <summary>
-        /// Prevents a default instance of the <see cref="Client" /> class from being created.
+        ///     Prevents a default instance of the <see cref="Client" /> class from being created.
         /// </summary>
         private Client()
         {
             // Todo: Make sure plugin folders exist and if not create it.
-            this.pluginHandler = new PluginHandler();
-            singletonCommands = IRCCommands.GetCommands();
-            this.pluginHandler.InitializePlugins();
+            _pluginHandler = new PluginHandler();
+            _singletonCommands = IrcCommands.GetCommands();
+            _pluginHandler.InitializePlugins();
         }
 
         /// <summary>
-        /// Event used for binding command plugins to receive the IRC client messages.
+        ///     Disposes of the Client object.
         /// </summary>
-        public event EventHandler<IRCEventArgs> RawMessageReceived;
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
 
         /// <summary>
-        /// Static method to create a new Client object.
+        ///     Event used for binding command plugins to receive the IRC client messages.
+        /// </summary>
+        public event EventHandler<IrcEventArgs> RawMessageReceived;
+
+        /// <summary>
+        ///     Static method to create a new Client object.
         /// </summary>
         /// <returns>The Client object.</returns>
         public static Client GetClient()
         {
-            if (singletonClient == null)
-            {
-                singletonClient = new Client();
-            }
-
-            return singletonClient;
+            return _singletonClient ?? (_singletonClient = new Client());
         }
 
         /// <summary>
-        /// Gets the name, description, and version of all plugins loaded by the client.
+        ///     Gets the name, description, and version of all plugins loaded by the client.
         /// </summary>
         /// <returns>String array containing plugin information.</returns>
         public string[][] GetAllPluginInfo()
         {
-            List<string[]> pluginInfo = new List<string[]>();
-            foreach (var item in this.pluginHandler.GetAllPluginInfo())
-            {
-                pluginInfo.Add(item);
-            }
-
-            foreach (var item in singletonCommands.GetAllPluginInfo())
-            {
-                pluginInfo.Add(item);
-            }
+            var pluginInfo = _pluginHandler.GetAllPluginInfo().ToList();
+            pluginInfo.AddRange(_singletonCommands.GetAllPluginInfo());
 
             return pluginInfo.ToArray();
         }
 
         /// <summary>
-        /// Gets the information for all loaded IRC client plugins.
+        ///     Gets the information for all loaded IRC client plugins.
         /// </summary>
         /// <returns>String array containing plugin information.</returns>
-        public string[][] GetIRCClientPluginInfo()
+        public string[][] GetIrcClientPluginInfo()
         {
-            return this.pluginHandler.GetAllPluginInfo();
+            return _pluginHandler.GetAllPluginInfo();
         }
 
         /// <summary>
-        /// Gets the information for all loaded IRC command plugins.
+        ///     Gets the information for all loaded IRC command plugins.
         /// </summary>
         /// <returns>String array containing plugin information.</returns>
         public string[][] GetCommandPluginInfo()
         {
-            return singletonCommands.GetAllPluginInfo();
+            return _singletonCommands.GetAllPluginInfo();
         }
 
         /// <summary>
-        /// Sends the start signal to the IRC client plugins.
+        ///     Sends the start signal to the IRC client plugins.
         /// </summary>
         public void Start()
         {
-            this.pluginHandler.RawMessageReceived += this.RawMessageReceived;
-            this.pluginHandler.RawMessageReceived += this.PluginHandler_RawMessageReceived;
-            this.pluginHandler.Start();
+            _pluginHandler.RawMessageReceived += RawMessageReceived;
+            _pluginHandler.RawMessageReceived += PluginHandler_RawMessageReceived;
+            _pluginHandler.Start();
         }
 
         /// <summary>
-        /// Sends the stop signal to the IRC client plugins.
+        ///     Sends the stop signal to the IRC client plugins.
         /// </summary>
         public void Stop()
         {
-            this.pluginHandler.Stop();
-            this.pluginHandler.RawMessageReceived -= this.RawMessageReceived;
-            this.pluginHandler.RawMessageReceived -= this.PluginHandler_RawMessageReceived;
+            _pluginHandler.Stop();
+            _pluginHandler.RawMessageReceived -= RawMessageReceived;
+            _pluginHandler.RawMessageReceived -= PluginHandler_RawMessageReceived;
         }
 
         /// <summary>
-        /// Sends a command to the IRC client plugins.
+        ///     Sends a command to the IRC client plugins.
         /// </summary>
         /// <param name="command">Raw IRC command to send.</param>
         public void SendCommand(string command)
         {
-            this.pluginHandler.SendCommand(command);
+            _pluginHandler.SendCommand(command);
         }
 
         /// <summary>
-        /// Disposes of the Client object.
-        /// </summary>
-        public void Dispose()
-        {
-            this.Dispose(true);
-            GC.SuppressFinalize(this);
-        }
-
-        /// <summary>
-        /// Disposes of the client object.
+        ///     Disposes of the client object.
         /// </summary>
         /// <param name="disposing">Is disposing.</param>
         protected virtual void Dispose(bool disposing)
         {
             if (disposing)
             {
-                if (this.pluginHandler != null)
+                if (_pluginHandler != null)
                 {
-                    this.pluginHandler.Dispose();
-                    this.pluginHandler = null;
+                    _pluginHandler.Dispose();
+                    _pluginHandler = null;
                 }
 
-                if (singletonClient != null)
+                if (_singletonClient != null)
                 {
-                    singletonClient.Dispose();
-                    singletonClient = null;
+                    _singletonClient.Dispose();
+                    _singletonClient = null;
                 }
 
-                if (singletonCommands != null)
+                if (_singletonCommands != null)
                 {
-                    singletonCommands.Dispose();
-                    singletonCommands = null;
+                    _singletonCommands.Dispose();
+                    _singletonCommands = null;
                 }
             }
         }
 
         /// <summary>
-        /// Test function for when the plugin handler receives a message from any plugin.
+        ///     Test function for when the plugin handler receives a message from any plugin.
         /// </summary>
         /// <param name="sender">IIRCPlugin object</param>
         /// <param name="e">Message object</param>
-        private void PluginHandler_RawMessageReceived(object sender, IRCEventArgs e)
+        private void PluginHandler_RawMessageReceived(object sender, IrcEventArgs e)
         {
-            singletonCommands.SendCommand((IIRCPlugin)sender, e);
+            _singletonCommands.SendCommand((IIrcPlugin) sender, e);
         }
     }
 }
