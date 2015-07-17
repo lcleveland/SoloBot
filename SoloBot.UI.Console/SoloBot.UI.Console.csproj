@@ -34,11 +34,6 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Program.cs" />
@@ -52,17 +47,9 @@
       <Project>{82de8320-ac2d-4a6f-bd0c-b6b2e5d52e32}</Project>
       <Name>SoloBot.Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\SoloBot.IRC.Interface\SoloBot.IRC.Interface.csproj">
-      <Project>{bd3195bb-c986-4e39-a69d-0d61f520d480}</Project>
-      <Name>SoloBot.IRC.Interface</Name>
-    </ProjectReference>
     <ProjectReference Include="..\SoloBot.IRC\SoloBot.IRC.csproj">
       <Project>{1ace68de-97b9-4f83-8088-95fcc3373504}</Project>
       <Name>SoloBot.IRC</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\SoloBot.Log\SoloBot.Log.csproj">
-      <Project>{66f6493d-8cea-43d5-81f6-25e6aa54a222}</Project>
-      <Name>SoloBot.Log</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -36,10 +36,6 @@
       <HintPath>..\packages\IrcMessageSharp.0.6.0\lib\net45\IrcMessageSharp.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.6.0.8\lib\net45\Newtonsoft.Json.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="RiotSharp, Version=2.2.5594.37327, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\RiotSharp.2.2.2\lib\net45\RiotSharp.dll</HintPath>
       <Private>True</Private>
@@ -47,13 +43,6 @@
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Net.Http" />
-    <Reference Include="System.Net.Http.WebRequest" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="LeagueInfo.cs" />
